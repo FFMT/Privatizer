@@ -2,6 +2,7 @@ package fr.mcnanotech.privatizer.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,11 +21,13 @@ public class PrivatizerMod
 	{
 		privateBlock = new BlockPrivate(Material.rock).setBlockName("privateBlock");
 		GameRegistry.registerBlock(privateBlock, "privateBlock");
+		
+		GameRegistry.registerTileEntity(TileEntityPrivate.class, "privatizer.private");
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		FMLCommonHandler.instance().bus().register(new PrivatizerEventHandler());
+		MinecraftForge.EVENT_BUS.register(new PrivatizerEventHandler());
 	}
 }

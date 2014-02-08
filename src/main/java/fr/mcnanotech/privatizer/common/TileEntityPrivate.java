@@ -9,11 +9,13 @@ public class TileEntityPrivate extends TileEntity
 	
     public void readFromNBT(NBTTagCompound nbtTag)
     {
+    	super.readFromNBT(nbtTag);
     	this.owner = nbtTag.getString("owner");
     }
 
     public void writeToNBT(NBTTagCompound nbtTag)
     {
+    	super.writeToNBT(nbtTag);
     	nbtTag.setString("owner", this.owner);
     }
 	
