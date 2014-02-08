@@ -2,6 +2,7 @@ package fr.mcnanotech.privatizer.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +13,7 @@ public class BlockPrivate extends Block
 	protected BlockPrivate(Material material)
 	{
 		super(material);
+		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
 	public boolean hasTileEntity(int metadata)
