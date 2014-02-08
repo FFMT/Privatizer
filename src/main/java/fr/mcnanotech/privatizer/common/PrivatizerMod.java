@@ -19,7 +19,7 @@ public class PrivatizerMod
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		privateBlock = new BlockPrivate(Material.rock).setBlockName("privateBlock");
+		privateBlock = new BlockPrivate(Material.rock).setBlockName("privateBlock").setResistance(5000F).setHardness(5F);
 		GameRegistry.registerBlock(privateBlock, "privateBlock");
 		
 		GameRegistry.registerTileEntity(TileEntityPrivate.class, "privatizer.private");
