@@ -15,12 +15,12 @@ public class PrivatizerEventHandler
 			TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
 			if(te != null && te instanceof TileEntityPrivate)
 			{
-	    		TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-	    		if(!event.getPlayer().getCommandSenderName().equals(tePrivate.getOwner()))
-	    		{
-	    			event.setCanceled(true);
-	    			event.setResult(Result.DENY);
-	    		}
+				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
+				if(!event.getPlayer().getCommandSenderName().equals(tePrivate.getOwner()))
+				{
+					event.setCanceled(true);
+					event.setResult(Result.DENY);
+				}
 			}
 		}
 	}
