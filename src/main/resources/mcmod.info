@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "privatizer",
+  "name": "Privatizer",
+  "description": "A mod that will allow you to secure your containers, buildings and more ",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authors": ["robin4002", "letherman255"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
