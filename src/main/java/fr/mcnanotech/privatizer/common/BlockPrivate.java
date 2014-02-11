@@ -117,19 +117,25 @@ public class BlockPrivate extends Block
 			if(te != null && te instanceof TileEntityPrivateAdaptable)
 			{
 				TileEntityPrivateAdaptable tePrivAdaptable = (TileEntityPrivateAdaptable)te;
-				if(player.getCurrentEquippedItem() != null && Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()) != null && Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()).isOpaqueCube())
+				if(player.getCurrentEquippedItem() != null && Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()) != null)
 				{
-					tePrivAdaptable.setStack(player.getCurrentEquippedItem());
-					world.markBlockForUpdate(x, y, z);
-					//world.markBlockRangeForRenderUpdate(x - 64, y - 32, z - 64, x + 64, y + 32, z + 64);
-				}
-				else if(player.getCurrentEquippedItem() == null && !world.isRemote)
-				{
-					player.addChatMessage(new ChatComponentText("Applied texture : " + (tePrivAdaptable.getBlockForTexture() != null ? tePrivAdaptable.getBlockForTexture().getLocalizedName() : "null")));
+					if(player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(this) || (player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(tePrivAdaptable.getBlockForTexture()) && player.getCurrentEquippedItem().getItemDamage() == tePrivAdaptable.getBlockMetadataForTexture()))
+					{
+						return false;
+					}
+					if(Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()).isOpaqueCube())
+					{
+						tePrivAdaptable.setStack(player.getCurrentEquippedItem());
+						world.markBlockForUpdate(x, y, z);
+					}
+					else if(!world.isRemote)
+					{
+						player.addChatMessage(new ChatComponentText("You can't apply this texture !"));
+					}
 				}
 				else if(!world.isRemote)
 				{
-					player.addChatMessage(new ChatComponentText("You can't apply this texture !"));
+					player.addChatMessage(new ChatComponentText("Applied texture : " + (tePrivAdaptable.getBlockForTexture() != null ? tePrivAdaptable.getBlockForTexture().getLocalizedName() : "null")));
 				}
 				return true;
 			}
