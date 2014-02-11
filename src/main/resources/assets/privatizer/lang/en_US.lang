@@ -1,0 +1,7 @@
+#en_US
+#Master lang file
+
+tile.private.stone.name=Private Stone
+tile.private.brick.name=Private Brick
+tile.private.adaptable.name=Adaptable Private Block
+tile.private.adaptable.desc=Right click with another block on/and the texture will change !

@@ -1,0 +1,7 @@
+#fr_FR
+#Translated by robin4002
+
+tile.private.stone.name=Pierre privée
+tile.private.brick.name=Brique privée
+tile.private.adaptable.name=Bloc privé adaptable
+tile.private.adaptable.desc=Faite un clic droit avec un autre/bloc et la texture va changer !
