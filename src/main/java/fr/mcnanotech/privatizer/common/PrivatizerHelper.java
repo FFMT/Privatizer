@@ -1,7 +1,7 @@
 package fr.mcnanotech.privatizer.common;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.server.MinecraftServer;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class PrivatizerHelper
 {

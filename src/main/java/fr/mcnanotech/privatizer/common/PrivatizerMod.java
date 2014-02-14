@@ -18,7 +18,7 @@ public class PrivatizerMod
 	public static Block privateBlock, privateDoor, privateChest, keyChanger;
 	public static Item key, bunchOfKeys, passPaper, securityPickaxe;
 	public static boolean opCanRemoveBlock;
-	
+
 	@Instance("privatizer")
 	public static PrivatizerMod instance;
 

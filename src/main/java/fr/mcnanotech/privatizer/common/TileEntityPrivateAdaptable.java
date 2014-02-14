@@ -15,35 +15,35 @@ public class TileEntityPrivateAdaptable extends TileEntityPrivate
 	public void readFromNBT(NBTTagCompound nbtTag)
 	{
 		super.readFromNBT(nbtTag);
-        NBTTagList nbttaglist = nbtTag.getTagList("Items", 10);
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound1.getByte("Slot") & 255;
+		NBTTagList nbttaglist = nbtTag.getTagList("Items", 10);
+		for(int i = 0; i < nbttaglist.tagCount(); ++i)
+		{
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+			int j = nbttagcompound1.getByte("Slot") & 255;
 
-            if (j >= 0 && j < this.currentStack.length)
-            {
-                this.currentStack[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
-            }
-        }
+			if(j >= 0 && j < this.currentStack.length)
+			{
+				this.currentStack[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+			}
+		}
 	}
 
 	public void writeToNBT(NBTTagCompound nbtTag)
 	{
 		super.writeToNBT(nbtTag);
-		
-        NBTTagList nbttaglist = new NBTTagList();
-        for (int i = 0; i < this.currentStack.length; ++i)
-        {
-            if (this.currentStack[i] != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("Slot", (byte)i);
-                this.currentStack[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            }
-        }
-        nbtTag.setTag("Items", nbttaglist);
+
+		NBTTagList nbttaglist = new NBTTagList();
+		for(int i = 0; i < this.currentStack.length; ++i)
+		{
+			if(this.currentStack[i] != null)
+			{
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+				nbttagcompound1.setByte("Slot", (byte)i);
+				this.currentStack[i].writeToNBT(nbttagcompound1);
+				nbttaglist.appendTag(nbttagcompound1);
+			}
+		}
+		nbtTag.setTag("Items", nbttaglist);
 	}
 
 	public Block getBlockForTexture()
@@ -54,7 +54,7 @@ public class TileEntityPrivateAdaptable extends TileEntityPrivate
 		}
 		return null;
 	}
-	
+
 	public int getBlockMetadataForTexture()
 	{
 		if(currentStack[0] != null)
@@ -68,16 +68,16 @@ public class TileEntityPrivateAdaptable extends TileEntityPrivate
 	{
 		this.currentStack[0] = stack;
 	}
-	
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
-        this.writeToNBT(nbttagcompound);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
-    }
-    
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
+
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
+		this.writeToNBT(nbttagcompound);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
+	}
+
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	{
 		this.readFromNBT(pkt.func_148857_g());
-    }
+	}
 }

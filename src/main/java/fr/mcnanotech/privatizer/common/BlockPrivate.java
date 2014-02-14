@@ -3,7 +3,6 @@ package fr.mcnanotech.privatizer.common;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
@@ -245,10 +244,10 @@ public class BlockPrivate extends Block
 			}
 		}
 	}
-    
-    @SideOnly(Side.CLIENT)
-    public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer)
-    {
+
+	@SideOnly(Side.CLIENT)
+	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer)
+	{
 		if(world.getBlockMetadata(target.blockX, target.blockY, target.blockZ) == 2)
 		{
 			TileEntity te = world.getTileEntity(target.blockX, target.blockY, target.blockZ);
@@ -257,52 +256,52 @@ public class BlockPrivate extends Block
 				TileEntityPrivateAdaptable tePrivAdaptable = (TileEntityPrivateAdaptable)te;
 				if(tePrivAdaptable.getBlockForTexture() != null)
 				{
-			        float f = 0.1F;
-			        double d0 = (double)target.blockX + world.rand.nextDouble() * (tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxX() - tePrivAdaptable.getBlockForTexture().getBlockBoundsMinX() - (double)(f * 2.0F)) + (double)f + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinX();
-			        double d1 = (double)target.blockY + world.rand.nextDouble() * (tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxY() - tePrivAdaptable.getBlockForTexture().getBlockBoundsMinY() - (double)(f * 2.0F)) + (double)f + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinY();
-			        double d2 = (double)target.blockZ + world.rand.nextDouble() * (tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxZ() - tePrivAdaptable.getBlockForTexture().getBlockBoundsMinZ() - (double)(f * 2.0F)) + (double)f + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinZ();
+					float f = 0.1F;
+					double d0 = (double)target.blockX + world.rand.nextDouble() * (tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxX() - tePrivAdaptable.getBlockForTexture().getBlockBoundsMinX() - (double)(f * 2.0F)) + (double)f + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinX();
+					double d1 = (double)target.blockY + world.rand.nextDouble() * (tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxY() - tePrivAdaptable.getBlockForTexture().getBlockBoundsMinY() - (double)(f * 2.0F)) + (double)f + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinY();
+					double d2 = (double)target.blockZ + world.rand.nextDouble() * (tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxZ() - tePrivAdaptable.getBlockForTexture().getBlockBoundsMinZ() - (double)(f * 2.0F)) + (double)f + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinZ();
 
-			        if (target.sideHit == 0)
-			        {
-			            d1 = (double)target.blockY + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinY() - (double)f;
-			        }
+					if(target.sideHit == 0)
+					{
+						d1 = (double)target.blockY + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinY() - (double)f;
+					}
 
-			        if (target.sideHit == 1)
-			        {
-			            d1 = (double)target.blockY + tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxY() + (double)f;
-			        }
+					if(target.sideHit == 1)
+					{
+						d1 = (double)target.blockY + tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxY() + (double)f;
+					}
 
-			        if (target.sideHit == 2)
-			        {
-			            d2 = (double)target.blockZ + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinZ() - (double)f;
-			        }
+					if(target.sideHit == 2)
+					{
+						d2 = (double)target.blockZ + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinZ() - (double)f;
+					}
 
-			        if (target.sideHit == 3)
-			        {
-			            d2 = (double)target.blockZ + tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxZ() + (double)f;
-			        }
+					if(target.sideHit == 3)
+					{
+						d2 = (double)target.blockZ + tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxZ() + (double)f;
+					}
 
-			        if (target.sideHit == 4)
-			        {
-			            d0 = (double)target.blockX + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinX() - (double)f;
-			        }
+					if(target.sideHit == 4)
+					{
+						d0 = (double)target.blockX + tePrivAdaptable.getBlockForTexture().getBlockBoundsMinX() - (double)f;
+					}
 
-			        if (target.sideHit == 5)
-			        {
-			            d0 = (double)target.blockX + tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxX() + (double)f;
-			        }
+					if(target.sideHit == 5)
+					{
+						d0 = (double)target.blockX + tePrivAdaptable.getBlockForTexture().getBlockBoundsMaxX() + (double)f;
+					}
 
-			        effectRenderer.addEffect((new EntityDiggingFX(world, d0, d1, d2, 0.0D, 0.0D, 0.0D, tePrivAdaptable.getBlockForTexture(), tePrivAdaptable.getBlockMetadataForTexture())).applyColourMultiplier(target.blockX, target.blockY, target.blockZ).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
-			        return true;
+					effectRenderer.addEffect((new EntityDiggingFX(world, d0, d1, d2, 0.0D, 0.0D, 0.0D, tePrivAdaptable.getBlockForTexture(), tePrivAdaptable.getBlockMetadataForTexture())).applyColourMultiplier(target.blockX, target.blockY, target.blockZ).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
+					return true;
 				}
 			}
 		}
 		return super.addHitEffects(world, target, effectRenderer);
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer)
-    {
+	}
+
+	@SideOnly(Side.CLIENT)
+	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer)
+	{
 		if(world.getBlockMetadata(x, y, z) == 2)
 		{
 			TileEntity te = world.getTileEntity(x, y, z);
@@ -311,25 +310,25 @@ public class BlockPrivate extends Block
 				TileEntityPrivateAdaptable tePrivAdaptable = (TileEntityPrivateAdaptable)te;
 				if(tePrivAdaptable.getBlockForTexture() != null)
 				{
-		            byte b0 = 4;
+					byte b0 = 4;
 
-		            for (int i1 = 0; i1 < b0; ++i1)
-		            {
-		                for (int j1 = 0; j1 < b0; ++j1)
-		                {
-		                    for (int k1 = 0; k1 < b0; ++k1)
-		                    {
-		                        double d0 = (double)x + ((double)i1 + 0.5D) / (double)b0;
-		                        double d1 = (double)y + ((double)j1 + 0.5D) / (double)b0;
-		                        double d2 = (double)z + ((double)k1 + 0.5D) / (double)b0;
-		                        effectRenderer.addEffect((new EntityDiggingFX(world, d0, d1, d2, d0 - (double)x - 0.5D, d1 - (double)y - 0.5D, d2 - (double)z - 0.5D, tePrivAdaptable.getBlockForTexture(), tePrivAdaptable.getBlockMetadata())).applyColourMultiplier(x, y, z));
-		                    }
-		                }
-		            }
+					for(int i1 = 0; i1 < b0; ++i1)
+					{
+						for(int j1 = 0; j1 < b0; ++j1)
+						{
+							for(int k1 = 0; k1 < b0; ++k1)
+							{
+								double d0 = (double)x + ((double)i1 + 0.5D) / (double)b0;
+								double d1 = (double)y + ((double)j1 + 0.5D) / (double)b0;
+								double d2 = (double)z + ((double)k1 + 0.5D) / (double)b0;
+								effectRenderer.addEffect((new EntityDiggingFX(world, d0, d1, d2, d0 - (double)x - 0.5D, d1 - (double)y - 0.5D, d2 - (double)z - 0.5D, tePrivAdaptable.getBlockForTexture(), tePrivAdaptable.getBlockMetadata())).applyColourMultiplier(x, y, z));
+							}
+						}
+					}
 					return true;
 				}
 			}
 		}
-        return super.addDestroyEffects(world, x, y, z, meta, effectRenderer);
-    }
+		return super.addDestroyEffects(world, x, y, z, meta, effectRenderer);
+	}
 }
