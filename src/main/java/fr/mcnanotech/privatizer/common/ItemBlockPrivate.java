@@ -15,6 +15,7 @@ public class ItemBlockPrivate extends ItemBlock
 	public ItemBlockPrivate(Block block)
 	{
 		super(block);
+		this.setHasSubtypes(true);
 	}
 	
     public int getMetadata(int metadata)
