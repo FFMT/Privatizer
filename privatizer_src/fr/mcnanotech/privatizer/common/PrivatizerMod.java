@@ -15,7 +15,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(modid = "privatizer", name = "Privatizer", version = "@VERSION@")
 public class PrivatizerMod
 {
-	public static Block privateBlock, privateDoor, privateChest, keyChanger;
+	public static Block privateBlock, privateChest, privateDoor, keyChanger;
 	public static Item key, bunchOfKeys, passPaper, securityPickaxe;
 	public static boolean opCanRemoveBlock;
 
@@ -42,12 +42,18 @@ public class PrivatizerMod
 				cfg.save();
 			}
 		}
-		privateBlock = new BlockPrivate(Material.rock).setBlockName("private").setResistance(5000F).setHardness(5F);
-
+		
+		privateBlock = new BlockPrivate(Material.rock).setBlockName("private").setResistance(5000F).setHardness(10F);
+		privateChest = new BlockPrivateChest(Material.iron).setBlockName("privateChest").setResistance(5000F).setHardness(10F);
+		privateDoor = new BlockPrivateDoor(Material.iron).setBlockName("privateDoor").setResistance(5000F).setHardness(10F);
+		
 		GameRegistry.registerBlock(privateBlock, ItemBlockPrivate.class, "privateBlock", "privatizer");
+		GameRegistry.registerBlock(privateChest, "privateChest");
+		GameRegistry.registerBlock(privateDoor, "privateDoor");
 
 		GameRegistry.registerTileEntity(TileEntityPrivate.class, "privatizer:Private");
 		GameRegistry.registerTileEntity(TileEntityPrivateAdaptable.class, "privatizer:PrivateAdaptable");
+		GameRegistry.registerTileEntity(TileEntityPrivateChest.class, "privatizer:PrivateChest");
 		GameRegistry.registerTileEntity(TileEntityFriend.class, "privatizer:Friend");
 		GameRegistry.registerTileEntity(TileEntityPassword.class, "privatizer:PassWord");
 	}
