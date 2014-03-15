@@ -10,11 +10,15 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "privatizer", name = "Privatizer", version = "@VERSION@")
+@Mod(modid = PrivatizerMod.MODID, name = "Privatizer", version = "@VERSION@")
 public class PrivatizerMod
 {
+	public static final String MODID = "privatizer";
+	
 	public static Block privateBlock, privateChest, privateDoor, keyChanger;
 	public static Item key, bunchOfKeys, passPaper, securityPickaxe;
 	public static boolean opCanRemoveBlock;
@@ -29,13 +33,13 @@ public class PrivatizerMod
 		try
 		{
 			cfg.load();
-			opCanRemoveBlock = cfg.get(Configuration.CATEGORY_GENERAL, "remove block by op", false, "If set to true, operator can break private block without being the owner of the block").getBoolean(false);
+			opCanRemoveBlock = cfg.get(Configuration.CATEGORY_GENERAL, "can op destroy", false, "If set to true, operator can break private block without being the owner of the block").getBoolean(false);
 		}
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
 		}
-		finally
+		finally 
 		{
 			if(cfg.hasChanged())
 			{
@@ -47,13 +51,14 @@ public class PrivatizerMod
 		privateChest = new BlockPrivateChest(Material.iron).setBlockName("privateChest").setResistance(5000F).setHardness(10F);
 		privateDoor = new BlockPrivateDoor(Material.iron).setBlockName("privateDoor").setResistance(5000F).setHardness(10F);
 		
-		GameRegistry.registerBlock(privateBlock, ItemBlockPrivate.class, "privateBlock", "privatizer");
-		GameRegistry.registerBlock(privateChest, "privateChest");
-		GameRegistry.registerBlock(privateDoor, "privateDoor");
+		GameRegistry.registerBlock(privateBlock, ItemBlockPrivate.class, "private_block");
+		GameRegistry.registerBlock(privateChest, "private_chest");
+		GameRegistry.registerBlock(privateDoor, ItemBlockPrivateDoor.class, "private_door");
 
 		GameRegistry.registerTileEntity(TileEntityPrivate.class, "privatizer:Private");
 		GameRegistry.registerTileEntity(TileEntityPrivateAdaptable.class, "privatizer:PrivateAdaptable");
 		GameRegistry.registerTileEntity(TileEntityPrivateChest.class, "privatizer:PrivateChest");
+		GameRegistry.registerTileEntity(TileEntityPrivateDoor.class, "privatizer:PrivateDoor");
 		GameRegistry.registerTileEntity(TileEntityFriend.class, "privatizer:Friend");
 		GameRegistry.registerTileEntity(TileEntityPassword.class, "privatizer:PassWord");
 	}
@@ -62,5 +67,6 @@ public class PrivatizerMod
 	public void init(FMLInitializationEvent event)
 	{
 		MinecraftForge.EVENT_BUS.register(new PrivatizerEventHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new PrivatizerGuiHandler());
 	}
 }

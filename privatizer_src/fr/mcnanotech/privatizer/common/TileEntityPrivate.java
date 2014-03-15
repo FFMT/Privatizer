@@ -16,7 +16,10 @@ public class TileEntityPrivate extends TileEntity
 	public void writeToNBT(NBTTagCompound nbtTag)
 	{
 		super.writeToNBT(nbtTag);
-		nbtTag.setString("owner", this.owner);
+		if(this.owner != null && !this.owner.isEmpty())
+		{
+			nbtTag.setString("owner", this.owner);
+		}
 	}
 
 	public void setOwner(String str)
