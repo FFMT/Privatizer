@@ -3,7 +3,6 @@ package fr.mcnanotech.privatizer.common;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.world.BlockEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class PrivatizerEventHandler
@@ -21,7 +20,6 @@ public class PrivatizerEventHandler
 				{
 					event.getPlayer().addChatMessage(new ChatComponentText("You can't remove this block, the owner is : " + tePrivate.getOwner()));
 					event.setCanceled(true);
-					event.setResult(Result.DENY);
 				}
 			}
 		}
