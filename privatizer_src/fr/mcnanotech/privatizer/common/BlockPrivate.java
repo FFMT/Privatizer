@@ -14,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -238,8 +239,7 @@ public class BlockPrivate extends Block
 				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
 				if(!player.getCommandSenderName().equals(tePrivate.getOwner()))
 				{
-					// TODO translation
-					player.addChatMessage(new ChatComponentText("You can't remove this block, the owner is : " + tePrivate.getOwner()));
+					player.addChatMessage(new ChatComponentTranslation("message.deny.open", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
 				}
 			}
 		}
