@@ -2,29 +2,43 @@ package fr.mcnanotech.privatizer.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fr.minecraftforgefrance.ffmtlibs.FFMTClientRegistry;
 
 public class BlockPrivateChest extends Block
 {
 	protected BlockPrivateChest(Material material)
 	{
 		super(material);
+		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
-	/*
-	 * public boolean isOpaqueCube() { return false; }
-	 * 
-	 * public boolean renderAsNormalBlock() { return false; }
-	 */
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public int getRenderType()
+	{
+		return FFMTClientRegistry.tesrRenderId;
+	}
 
 	public boolean hasTileEntity(int metadata)
 	{
@@ -71,7 +85,7 @@ public class BlockPrivateChest extends Block
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 		return tileentity != null ? tileentity.receiveClientEvent(eventId, value) : false;
 	}
-	
+
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase living, ItemStack stack)
 	{
 		if(stack.getItemDamage() == 0)
@@ -84,7 +98,7 @@ public class BlockPrivateChest extends Block
 			}
 		}
 	}
-	
+
 	public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, int x, int y, int z)
 	{
 		TileEntity te = world.getTileEntity(x, y, z);
@@ -98,7 +112,7 @@ public class BlockPrivateChest extends Block
 		}
 		return ForgeHooks.blockStrength(this, player, world, x, y, z);
 	}
-	
+
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
 	{
 		if(!world.isRemote)

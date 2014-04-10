@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -25,6 +26,9 @@ public class PrivatizerMod
 
 	@Instance("privatizer")
 	public static PrivatizerMod instance;
+	
+	@SidedProxy(clientSide = "fr.mcnanotech.privatizer.client.ClientProxy", serverSide = "fr.mcnanotech.privatizer.common.CommonProxy")
+	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -68,5 +72,6 @@ public class PrivatizerMod
 	{
 		MinecraftForge.EVENT_BUS.register(new PrivatizerEventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new PrivatizerGuiHandler());
+		proxy.registerRender();
 	}
 }
