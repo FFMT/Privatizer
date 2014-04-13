@@ -6,5 +6,7 @@ tile.private.brick.name=Private Brick
 tile.private.adaptable.name=Adaptable Private Block
 tile.private.adaptable.desc=Right click with another block on/and the texture will change !
 
+container.privateChest=Private Chest
+
 message.deny.break=You can not break this block. The owner is : %s
 message.deny.open=You can not open this block. The owner is : %s

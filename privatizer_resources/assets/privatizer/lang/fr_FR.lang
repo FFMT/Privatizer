@@ -6,5 +6,7 @@ tile.private.brick.name=Brique privée
 tile.private.adaptable.name=Bloc privé adaptable
 tile.private.adaptable.desc=Faite un clic droit avec un autre/bloc et la texture va changer !
 
+container.privateChest=Coffre privé
+
 message.deny.break=Vous ne pouvez pas casser ce bloc. Le propriétaire est : %s
 message.deny.open=Vous ne pouvez pas ouvrir ce bloc. Le propriétaire est : %s

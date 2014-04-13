@@ -9,6 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -33,7 +34,7 @@ public class BlockPrivateChest extends Block
 	{
 		return false;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public int getRenderType()
 	{
@@ -127,5 +128,16 @@ public class BlockPrivateChest extends Block
 				}
 			}
 		}
+	}
+
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+	{
+		return AxisAlignedBB.getAABBPool().getAABB(x + 0.065D, y, z + 0.065D, x + 0.935D, y + 1, z + 0.935D);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
+	{
+		return AxisAlignedBB.getAABBPool().getAABB(x + 0.065D, y, z + 0.065D, x + 0.935D, y + 1, z + 0.935D);
 	}
 }
