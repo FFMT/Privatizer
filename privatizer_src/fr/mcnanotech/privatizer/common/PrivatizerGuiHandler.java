@@ -4,8 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
-import fr.mcnanotech.kevin_68.nanotechmod.main.container.ContainerPortableChest;
-import fr.mcnanotech.kevin_68.nanotechmod.main.tileentity.TileEntityPortableChest;
 import fr.mcnanotech.privatizer.client.GuiPrivateChest;
 
 public class PrivatizerGuiHandler implements IGuiHandler

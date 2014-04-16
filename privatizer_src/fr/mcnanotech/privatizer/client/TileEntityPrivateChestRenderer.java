@@ -1,9 +1,10 @@
 package fr.mcnanotech.privatizer.client;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import fr.mcnanotech.privatizer.common.TileEntityPrivateChest;
 import fr.minecraftforgefrance.ffmtlibs.client.renderer.TileEntityInventorySpecialRenderer;
 
