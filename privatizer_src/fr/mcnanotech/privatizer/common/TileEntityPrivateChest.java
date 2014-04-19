@@ -10,6 +10,9 @@ import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 
@@ -21,6 +24,30 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 	public int numPlayersUsing;
 	private int ticksSinceSync;
 	private String customName;
+	private byte direction;
+
+	public byte getDirection()
+	{
+		return direction;
+	}
+
+	public void setDirection(byte direction)
+	{
+		this.direction = direction;
+		this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+	}
+	
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
+		this.writeToNBT(nbttagcompound);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
+	}
+
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	{
+		this.readFromNBT(pkt.func_148857_g());
+	}
 
 	@Override
 	public int getSizeInventory()
@@ -126,6 +153,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 		{
 			this.customName = nbtTag.getString("CustomName");
 		}
+		this.direction = nbtTag.getByte("Direction");
 
 		NBTTagList nbttaglist = nbtTag.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		for(int i = 0; i < nbttaglist.tagCount(); ++i)
@@ -160,6 +188,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 		{
 			nbtTag.setString("CustomName", this.customName);
 		}
+		nbtTag.setByte("Direction", this.direction);
 	}
 
 	public void updateEntity()

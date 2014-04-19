@@ -33,8 +33,7 @@ public class TileEntityPrivateChestRenderer extends TileEntityInventorySpecialRe
 		this.bindTexture(this.texture);
 		if(chest != null)
 		{
-			// TODO direction
-			//GL11.glRotatef(90F * chest.getDirection(), 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(90F * chest.getDirection(), 0.0F, 1.0F, 0.0F);
 			float angle = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * tick;
 			angle = 1.0F - angle;
 			angle = 1.0F - angle * angle * angle;
