@@ -66,7 +66,6 @@ public class BlockPrivateChest extends Block
 		if(world.getBlockMetadata(x, y, z) == 0 && tile instanceof TileEntityPrivateChest && !player.isSneaking())
 		{
 			TileEntityPrivateChest chest = (TileEntityPrivateChest)tile;
-			player.addChatMessage(new ChatComponentText("vvv" + chest.getDirection()));
 			if(PrivatizerHelper.canBreak(player.getCommandSenderName(), chest.getOwner()))
 			{
 				player.openGui(PrivatizerMod.instance, 0, world, x, y, z);
