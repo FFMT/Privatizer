@@ -12,7 +12,7 @@ public class TileEntityPrivateChestRenderer extends TileEntityInventorySpecialRe
 {
 	private final ResourceLocation texture = new ResourceLocation("privatizer", "textures/models/blocks/private_chest.png");
 	private final ModelPrivateChest model = new ModelPrivateChest();
-	
+
 	@Override
 	public void renderInventory(double x, double y, double z)
 	{

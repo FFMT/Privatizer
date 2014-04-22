@@ -36,7 +36,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 		this.direction = direction;
 		this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 	}
-	
+
 	public Packet getDescriptionPacket()
 	{
 		NBTTagCompound nbttagcompound = new NBTTagCompound();

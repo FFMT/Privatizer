@@ -2,7 +2,6 @@ package fr.mcnanotech.privatizer.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -27,7 +25,6 @@ public class BlockPrivateChest extends Block
 	protected BlockPrivateChest(Material material)
 	{
 		super(material);
-		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	public boolean isOpaqueCube()
@@ -97,7 +94,7 @@ public class BlockPrivateChest extends Block
 
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase living, ItemStack stack)
 	{
-		int direction = (MathHelper.floor_double((double)(living.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3)  + 2;
+		int direction = (MathHelper.floor_double((double)(living.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3) + 2;
 		if(stack.getItemDamage() == 0)
 		{
 			TileEntity te = world.getTileEntity(x, y, z);

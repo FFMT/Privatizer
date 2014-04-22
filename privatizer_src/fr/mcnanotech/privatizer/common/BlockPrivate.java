@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
@@ -32,7 +31,6 @@ public class BlockPrivate extends Block
 	protected BlockPrivate(Material material)
 	{
 		super(material);
-		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	public boolean hasTileEntity(int metadata)
@@ -134,14 +132,12 @@ public class BlockPrivate extends Block
 					}
 					else if(!world.isRemote)
 					{
-						// TODO translation
-						player.addChatMessage(new ChatComponentText("You can't apply this texture !"));
+						player.addChatMessage(new ChatComponentTranslation("message.deny.texture"));
 					}
 				}
 				else if(!world.isRemote)
 				{
-					// TODO translation
-					player.addChatMessage(new ChatComponentText("Applied texture : " + (tePrivAdaptable.getBlockForTexture() != null ? tePrivAdaptable.getBlockForTexture().getLocalizedName() : "null")));
+					player.addChatMessage(new ChatComponentTranslation("message.info.texture", tePrivAdaptable.getBlockForTexture() != null ? tePrivAdaptable.getBlockForTexture().getLocalizedName() : "null"));
 				}
 				return true;
 			}

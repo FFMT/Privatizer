@@ -1,10 +1,15 @@
 package fr.mcnanotech.privatizer.common;
 
 import net.minecraft.server.MinecraftServer;
+
+import com.google.common.base.Splitter;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class PrivatizerHelper
 {
+	public static final Splitter newLineSplitter = Splitter.on("\\n");
+
 	public static boolean canBreak(String player, String owner)
 	{
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();

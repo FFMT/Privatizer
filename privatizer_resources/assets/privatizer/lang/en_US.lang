@@ -4,9 +4,20 @@
 tile.private.stone.name=Private Stone
 tile.private.brick.name=Private Brick
 tile.private.adaptable.name=Adaptable Private Block
-tile.private.adaptable.desc=Right click with another block on/and the texture will change !
+tile.private.adaptable.desc=Right click on with another block\nand the texture will change !
+tile.privateChest.name=Private Chest
+tile.privateDoor.name=Private Door
 
 container.privateChest=Private Chest
 
+item.key.name=Key
+item.bunchOfKeys.name=Bunch Of Keys
+item.passPaper.name=Password Paper
+item.padlock.name=Padlock
+
+itemGroup.privatizer=Privatizer
+
 message.deny.break=You can not break this block. The owner is : %s
 message.deny.open=You can not open this block. The owner is : %s
+message.deny.texture=You can't apply this texture !
+message.info.texture=Applied texture : %s

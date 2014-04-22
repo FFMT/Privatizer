@@ -37,11 +37,7 @@ public class ItemBlockPrivate extends ItemBlock
 	{
 		if(stack.getItemDamage() == 2)
 		{
-			String[] desc = StatCollector.translateToLocal("tile.private.adaptable.desc").split("/");
-			for(String desPart : desc)
-			{
-				list.add(desPart);
-			}
+			list.addAll(PrivatizerHelper.newLineSplitter.splitToList(StatCollector.translateToLocal("tile.private.adaptable.desc")));
 		}
 		if(stack.getItemDamage() >= 3 && stack.getItemDamage() <= 11)
 		{

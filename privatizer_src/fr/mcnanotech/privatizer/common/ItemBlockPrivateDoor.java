@@ -31,7 +31,7 @@ public class ItemBlockPrivateDoor extends ItemBlock
 	{
 		return itemIcon;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iiconRegister)
 	{

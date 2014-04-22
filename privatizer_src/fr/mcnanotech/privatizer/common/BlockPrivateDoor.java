@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -30,7 +29,6 @@ public class BlockPrivateDoor extends Block
 		float f = 0.5F;
 		float f1 = 1.0F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
-		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	public boolean hasTileEntity(int metadata)
