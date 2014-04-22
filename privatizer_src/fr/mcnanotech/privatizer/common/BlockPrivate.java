@@ -1,6 +1,7 @@
 package fr.mcnanotech.privatizer.common;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -9,12 +10,16 @@ import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -24,9 +29,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockPrivate extends Block
 {
-	public static String[] type = new String[] {"stone", "brick", "adaptable", "furnace", "friendlyStone", "friendlyBrick", "friendlyAdaptable", "friendlyFurnace", "passwordStone", "passwordBrick", "passwordAdaptable", "passwordFurnace"};
-
-	public IIcon stoneIcon, brickIcon, adaptableIcon, friendlyStoneIcon, friendlyBrickIcon, passwordStoneIcon, passwordBrickIcon;
+	public static String[] subBlock = new String[] {"stone", "brick", "adaptable", "furnace", "friendlyStone", "friendlyBrick", "friendlyAdaptable", "friendlyFurnace", "passwordStone", "passwordBrick", "passwordAdaptable", "passwordFurnace"};
+	public String[] furnaceTextureName = new String[] {"bottom", "top", "side", "front"};
+	public IIcon stoneIcon, brickIcon, adaptableIcon /* , friendlyStoneIcon, friendlyBrickIcon, passwordStoneIcon, passwordBrickIcon */;
+	public IIcon[] furnaceIcon = new IIcon[this.furnaceTextureName.length];
 
 	protected BlockPrivate(Material material)
 	{
@@ -35,7 +41,7 @@ public class BlockPrivate extends Block
 
 	public boolean hasTileEntity(int metadata)
 	{
-		if(metadata >= 0 && metadata <= type.length)
+		if(metadata >= 0 && metadata <= subBlock.length)
 		{
 			return true;
 		}
@@ -56,7 +62,7 @@ public class BlockPrivate extends Block
 		case 2:
 			return new TileEntityPrivateAdaptable();
 		case 3:
-			return new TileEntityPrivate(); // TODO create furnace tile entity private
+			return new TileEntityPrivateFurnace();
 		case 4:
 			return new TileEntityFriend();
 		case 5:
@@ -80,31 +86,37 @@ public class BlockPrivate extends Block
 
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase living, ItemStack stack)
 	{
-		if(stack.getItemDamage() >= 0 && stack.getItemDamage() <= 3)
+		TileEntity tile = world.getTileEntity(x, y, z);
+		int direction = (MathHelper.floor_double((double)(living.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3) + 2;
+		if(stack.getItemDamage() >= 0 && stack.getItemDamage() <= 2 && tile instanceof TileEntityPrivate)
 		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te != null && te instanceof TileEntityPrivate)
+			TileEntityPrivate tilePrivate = (TileEntityPrivate)tile;
+			tilePrivate.setOwner(living.getCommandSenderName());
+		}
+		else if(stack.getItemDamage() == 3)
+		{
+			TileEntityPrivateFurnace tilePrivateFurnace = (TileEntityPrivateFurnace)tile;
+			tilePrivateFurnace.setOwner(living.getCommandSenderName());
+			tilePrivateFurnace.setDirection((byte)direction);
+			if(stack.hasDisplayName())
 			{
-				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-				tePrivate.setOwner(living.getCommandSenderName());
+				tilePrivateFurnace.setInventoryName(stack.getDisplayName());
 			}
 		}
 		else if(stack.getItemDamage() >= 4 && stack.getItemDamage() <= 7)
 		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te != null && te instanceof TileEntityFriend)
+			if(tile instanceof TileEntityFriend)
 			{
-				TileEntityFriend teFriend = (TileEntityFriend)te;
+				TileEntityFriend teFriend = (TileEntityFriend)tile;
 				// TODO friend list
 				// teFriend.setOwners(list);
 			}
 		}
 		else if(stack.getItemDamage() >= 8 && stack.getItemDamage() <= 11)
 		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te != null && te instanceof TileEntityPassword)
+			if(tile instanceof TileEntityPassword)
 			{
-				TileEntityPassword tePassword = (TileEntityPassword)te;
+				TileEntityPassword tePassword = (TileEntityPassword)tile;
 				// TODO password
 				// tePassword.setPassword(str);
 			}
@@ -113,34 +125,50 @@ public class BlockPrivate extends Block
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		if(world.getBlockMetadata(x, y, z) == 2)
+		TileEntity te = world.getTileEntity(x, y, z);
+		if(world.getBlockMetadata(x, y, z) == 2 && te instanceof TileEntityPrivateAdaptable)
 		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te != null && te instanceof TileEntityPrivateAdaptable)
+			TileEntityPrivateAdaptable tePrivAdaptable = (TileEntityPrivateAdaptable)te;
+			if(player.getCurrentEquippedItem() != null && Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()) != null)
 			{
-				TileEntityPrivateAdaptable tePrivAdaptable = (TileEntityPrivateAdaptable)te;
-				if(player.getCurrentEquippedItem() != null && Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()) != null)
+				if(player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(this) || (player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(tePrivAdaptable.getBlockForTexture()) && player.getCurrentEquippedItem().getItemDamage() == tePrivAdaptable.getBlockMetadataForTexture()))
 				{
-					if(player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(this) || (player.getCurrentEquippedItem().getItem() == Item.getItemFromBlock(tePrivAdaptable.getBlockForTexture()) && player.getCurrentEquippedItem().getItemDamage() == tePrivAdaptable.getBlockMetadataForTexture()))
-					{
-						return false;
-					}
-					if(Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()).isOpaqueCube())
-					{
-						tePrivAdaptable.setStack(player.getCurrentEquippedItem());
-						world.markBlockForUpdate(x, y, z);
-					}
-					else if(!world.isRemote)
-					{
-						player.addChatMessage(new ChatComponentTranslation("message.deny.texture"));
-					}
+					return false;
+				}
+				if(Block.getBlockFromItem(player.getCurrentEquippedItem().getItem()).isOpaqueCube())
+				{
+					tePrivAdaptable.setStack(player.getCurrentEquippedItem());
+					world.markBlockForUpdate(x, y, z);
 				}
 				else if(!world.isRemote)
 				{
-					player.addChatMessage(new ChatComponentTranslation("message.info.texture", tePrivAdaptable.getBlockForTexture() != null ? tePrivAdaptable.getBlockForTexture().getLocalizedName() : "null"));
+					player.addChatMessage(new ChatComponentTranslation("message.deny.texture"));
 				}
+			}
+			else if(!world.isRemote)
+			{
+				player.addChatMessage(new ChatComponentTranslation("message.info.texture", tePrivAdaptable.getBlockForTexture() != null ? tePrivAdaptable.getBlockForTexture().getLocalizedName() : "null"));
+			}
+			return true;
+		}
+
+		if(world.getBlockMetadata(x, y, z) == 3 && te instanceof TileEntityPrivateFurnace && !player.isSneaking())
+		{
+			if(world.isRemote)
+			{
 				return true;
 			}
+
+			TileEntityPrivateFurnace furnace = (TileEntityPrivateFurnace)te;
+			if(PrivatizerHelper.canBreak(player.getCommandSenderName(), furnace.getOwner()))
+			{
+				player.openGui(PrivatizerMod.instance, 0, world, x, y, z);
+			}
+			else
+			{
+				player.addChatMessage(new ChatComponentTranslation("message.deny.open", furnace.getOwner() != null ? furnace.getOwner() : "null"));
+			}
+			return true;
 		}
 		return false;
 	}
@@ -167,7 +195,7 @@ public class BlockPrivate extends Block
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tabs, List list)
 	{
-		for(int i = 0; i < this.type.length; i++)
+		for(int i = 0; i < this.subBlock.length; i++)
 		{
 			list.add(new ItemStack(item, 1, i));
 		}
@@ -179,10 +207,14 @@ public class BlockPrivate extends Block
 		this.stoneIcon = iiconRegister.registerIcon("privatizer:private_stone");
 		this.brickIcon = iiconRegister.registerIcon("privatizer:private_brick");
 		this.adaptableIcon = iiconRegister.registerIcon("privatizer:private_adaptable");
-		this.friendlyStoneIcon = iiconRegister.registerIcon("privatizer:friendly_stone");
-		this.friendlyBrickIcon = iiconRegister.registerIcon("privatizer:friendly_brick");
-		this.passwordStoneIcon = iiconRegister.registerIcon("privatizer:password_stone");
-		this.passwordBrickIcon = iiconRegister.registerIcon("privatizer:password_brick");
+		// this.friendlyStoneIcon = iiconRegister.registerIcon("privatizer:friendly_stone");
+		// this.friendlyBrickIcon = iiconRegister.registerIcon("privatizer:friendly_brick");
+		// this.passwordStoneIcon = iiconRegister.registerIcon("privatizer:password_stone");
+		// this.passwordBrickIcon = iiconRegister.registerIcon("privatizer:password_brick");
+		for(int i = 0; i < this.furnaceTextureName.length; i++)
+		{
+			this.furnaceIcon[i] = iiconRegister.registerIcon(PrivatizerMod.MODID + ":" + "private_furnace_" + this.furnaceTextureName[i]);
+		}
 	}
 
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
@@ -212,14 +244,16 @@ public class BlockPrivate extends Block
 			return this.brickIcon;
 		case 2:
 			return this.adaptableIcon;
-		case 4:
-			return this.friendlyStoneIcon;
-		case 5:
-			return this.friendlyBrickIcon;
-		case 8:
-			return this.passwordStoneIcon;
-		case 9:
-			return this.passwordBrickIcon;
+		case 3:
+			return side < 2 ? this.furnaceIcon[side] : side ==  2 ? this.furnaceIcon[2] : this.furnaceIcon[3];
+			// case 4:
+			// return this.friendlyStoneIcon;
+			// case 5:
+			// return this.friendlyBrickIcon;
+			// case 8:
+			// return this.passwordStoneIcon;
+			// case 9:
+			// return this.passwordBrickIcon;
 		default:
 			return this.blockIcon;
 		}
@@ -326,5 +360,93 @@ public class BlockPrivate extends Block
 			}
 		}
 		return super.addDestroyEffects(world, x, y, z, meta, effectRenderer);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand)
+	{
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(world.getBlockMetadata(x, y, z) == 3 && tile instanceof TileEntityPrivateFurnace && ((TileEntityPrivateFurnace)tile).isActive())
+		{
+			this.spawnParticle(world, x, y, z, rand, ((TileEntityPrivateFurnace)tile).getDirection());
+		}
+	}
+
+	public void spawnParticle(World world, double x, double y, double z, Random rand, byte side)
+	{
+		float xCenter = (float)x + 0.5F;
+		float ySpawn = (float)y + 0.0F + rand.nextFloat() * 6.0F / 16.0F;
+		float zCenter = (float)z + 0.5F;
+		float randF = rand.nextFloat() * 0.6F - 0.3F;
+
+		if(side == 3)
+		{
+			world.spawnParticle("smoke", xCenter - 0.52F, ySpawn, zCenter + randF, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("flame", xCenter - 0.52F, ySpawn, zCenter + randF, 0.0D, 0.0D, 0.0D);
+		}
+		else if(side == 5)
+		{
+			world.spawnParticle("smoke", xCenter + 0.52F, ySpawn, zCenter + randF, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("flame", xCenter + 0.52F, ySpawn, zCenter + randF, 0.0D, 0.0D, 0.0D);
+		}
+		else if(side == 4)
+		{
+			world.spawnParticle("smoke", xCenter + randF, ySpawn, zCenter - 0.52F, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("flame", xCenter + randF, ySpawn, zCenter - 0.52F, 0.0D, 0.0D, 0.0D);
+		}
+		else if(side == 2)
+		{
+			world.spawnParticle("smoke", xCenter + randF, ySpawn, zCenter + 0.52F, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("flame", xCenter + randF, ySpawn, zCenter + 0.52F, 0.0D, 0.0D, 0.0D);
+		}
+	}
+
+	public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
+	{
+		if(metadata == 3)
+		{
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if(tile instanceof IInventory)
+			{
+				IInventory inv = (IInventory)tile;
+				for(int i1 = 0; i1 < inv.getSizeInventory(); ++i1)
+				{
+					ItemStack itemstack = inv.getStackInSlot(i1);
+
+					if(itemstack != null)
+					{
+						float f = world.rand.nextFloat() * 0.8F + 0.1F;
+						float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+						float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+
+						while(itemstack.stackSize > 0)
+						{
+							int j1 = world.rand.nextInt(21) + 10;
+
+							if(j1 > itemstack.stackSize)
+							{
+								j1 = itemstack.stackSize;
+							}
+
+							itemstack.stackSize -= j1;
+							EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+
+							if(itemstack.hasTagCompound())
+							{
+								entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+							}
+
+							float f3 = 0.05F;
+							entityitem.motionX = (double)((float)world.rand.nextGaussian() * f3);
+							entityitem.motionY = (double)((float)world.rand.nextGaussian() * f3 + 0.2F);
+							entityitem.motionZ = (double)((float)world.rand.nextGaussian() * f3);
+							world.spawnEntityInWorld(entityitem);
+						}
+					}
+				}
+				world.func_147453_f(x, y, z, block);
+			}
+		}
+		super.breakBlock(world, x, y, z, block, metadata);
 	}
 }

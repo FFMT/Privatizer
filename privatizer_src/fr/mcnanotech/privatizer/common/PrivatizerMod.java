@@ -75,6 +75,7 @@ public class PrivatizerMod
 
 		GameRegistry.registerTileEntity(TileEntityPrivate.class, "privatizer:Private");
 		GameRegistry.registerTileEntity(TileEntityPrivateAdaptable.class, "privatizer:PrivateAdaptable");
+		GameRegistry.registerTileEntity(TileEntityPrivateFurnace.class, "privatizer:Furnace");
 		GameRegistry.registerTileEntity(TileEntityPrivateChest.class, "privatizer:PrivateChest");
 		GameRegistry.registerTileEntity(TileEntityPrivateDoor.class, "privatizer:PrivateDoor");
 		GameRegistry.registerTileEntity(TileEntityFriend.class, "privatizer:Friend");

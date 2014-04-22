@@ -103,6 +103,10 @@ public class BlockPrivateChest extends Block
 				TileEntityPrivateChest tePrivate = (TileEntityPrivateChest)te;
 				tePrivate.setOwner(living.getCommandSenderName());
 				tePrivate.setDirection((byte)direction);
+				if(stack.hasDisplayName())
+				{
+					tePrivate.setInventoryName(stack.getDisplayName());
+				}
 			}
 		}
 	}

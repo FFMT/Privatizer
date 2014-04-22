@@ -9,6 +9,7 @@ tile.privateChest.name=Coffre privé
 tile.privateDoor.name=Porte privé
 
 container.privateChest=Coffre privé
+container.privateFurnace=Four privé
 
 item.key.name=Clés
 item.bunchOfKeys.name=Trousseau de clés

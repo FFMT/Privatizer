@@ -25,9 +25,9 @@ public class ItemBlockPrivate extends ItemBlock
 
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		if(stack.getItemDamage() >= 0 && stack.getItemDamage() <= BlockPrivate.type.length)
+		if(stack.getItemDamage() >= 0 && stack.getItemDamage() <= BlockPrivate.subBlock.length)
 		{
-			return field_150939_a.getUnlocalizedName() + "." + BlockPrivate.type[stack.getItemDamage()];
+			return field_150939_a.getUnlocalizedName() + "." + BlockPrivate.subBlock[stack.getItemDamage()];
 		}
 		return field_150939_a.getUnlocalizedName();
 	}
@@ -39,7 +39,7 @@ public class ItemBlockPrivate extends ItemBlock
 		{
 			list.addAll(PrivatizerHelper.newLineSplitter.splitToList(StatCollector.translateToLocal("tile.private.adaptable.desc")));
 		}
-		if(stack.getItemDamage() >= 3 && stack.getItemDamage() <= 11)
+		if(stack.getItemDamage() >= 4 && stack.getItemDamage() <= 11)
 		{
 			list.add("In dev, comming soon !");
 		}

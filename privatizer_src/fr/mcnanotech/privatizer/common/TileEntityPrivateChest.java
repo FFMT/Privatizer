@@ -62,13 +62,13 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 	}
 
 	@Override
-	public ItemStack decrStackSize(int slot, int quantity)
+	public ItemStack decrStackSize(int slot, int amount)
 	{
 		if(this.contents[slot] != null)
 		{
 			ItemStack itemstack;
 
-			if(this.contents[slot].stackSize <= quantity)
+			if(this.contents[slot].stackSize <= amount)
 			{
 				itemstack = this.contents[slot];
 				this.contents[slot] = null;
@@ -76,7 +76,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 			}
 			else
 			{
-				itemstack = this.contents[slot].splitStack(quantity);
+				itemstack = this.contents[slot].splitStack(amount);
 
 				if(this.contents[slot].stackSize == 0)
 				{

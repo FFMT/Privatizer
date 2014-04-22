@@ -1,5 +1,6 @@
 package fr.mcnanotech.privatizer.common;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraftforge.event.world.BlockEvent;
@@ -10,18 +11,33 @@ public class PrivatizerEventHandler
 	@SubscribeEvent
 	public void onBlockDestroyed(BlockEvent.BreakEvent event)
 	{
-		if(event.block == PrivatizerMod.privateBlock || event.block == PrivatizerMod.privateChest || event.block == PrivatizerMod.privateDoor)
+		if(event.block == PrivatizerMod.privateBlock || event.block == PrivatizerMod.privateChest)
 		{
-			TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
-			if(te instanceof TileEntityPrivate)
+			TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
+			event.setCanceled(getIsCancel(tile, event.getPlayer()));
+		}
+		else if(event.block == PrivatizerMod.privateDoor)
+		{
+			TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
+			if(!(tile instanceof TileEntityPrivateDoor))
 			{
-				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-				if(!PrivatizerHelper.canBreak(event.getPlayer().getCommandSenderName(), tePrivate.getOwner()))
-				{
-					event.getPlayer().addChatMessage(new ChatComponentTranslation("message.deny.break", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
-					event.setCanceled(true);
-				}
+				tile = event.world.getTileEntity(event.x, event.y - 1, event.z);
+			}
+			event.setCanceled(getIsCancel(tile, event.getPlayer()));
+		}
+	}
+
+	public boolean getIsCancel(TileEntity tile, EntityPlayer player)
+	{
+		if(tile instanceof TileEntityPrivate)
+		{
+			TileEntityPrivate tePrivate = (TileEntityPrivate)tile;
+			if(!PrivatizerHelper.canBreak(player.getCommandSenderName(), tePrivate.getOwner()))
+			{
+				player.addChatMessage(new ChatComponentTranslation("message.deny.break", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
+				return true;
 			}
 		}
+		return false;
 	}
 }

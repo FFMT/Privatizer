@@ -9,6 +9,7 @@ tile.privateChest.name=Private Chest
 tile.privateDoor.name=Private Door
 
 container.privateChest=Private Chest
+container.privateFurnace=Private Furnace
 
 item.key.name=Key
 item.bunchOfKeys.name=Bunch Of Keys
