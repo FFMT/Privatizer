@@ -26,7 +26,6 @@ public class GuiPrivateFurnace extends GuiContainer
 		String s = this.tilePrivateFurnace.hasCustomInventoryName() ? this.tilePrivateFurnace.getInventoryName() : I18n.format(this.tilePrivateFurnace.getInventoryName());
 		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-		this.fontRendererObj.drawString(String.valueOf(this.tilePrivateFurnace.getDirection()), 8, this.ySize - 76 + 2, 4210752);
 	}
 
 	@Override

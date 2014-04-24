@@ -30,7 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockPrivate extends Block
 {
 	public static String[] subBlock = new String[] {"stone", "brick", "adaptable", "furnace", "friendlyStone", "friendlyBrick", "friendlyAdaptable", "friendlyFurnace", "passwordStone", "passwordBrick", "passwordAdaptable", "passwordFurnace"};
-	public String[] furnaceTextureName = new String[] {"bottom", "top", "side", "front"};
+	public String[] furnaceTextureName = new String[] {"top", "side", "front", "front_on"};
 	public IIcon stoneIcon, brickIcon, adaptableIcon /* , friendlyStoneIcon, friendlyBrickIcon, passwordStoneIcon, passwordBrickIcon */;
 	public IIcon[] furnaceIcon = new IIcon[this.furnaceTextureName.length];
 
@@ -222,12 +222,35 @@ public class BlockPrivate extends Block
 		if(world.getBlockMetadata(x, y, z) == 2)
 		{
 			TileEntity te = world.getTileEntity(x, y, z);
-			if(te != null && te instanceof TileEntityPrivateAdaptable)
+			if(te instanceof TileEntityPrivateAdaptable)
 			{
 				TileEntityPrivateAdaptable tePrivAdaptable = (TileEntityPrivateAdaptable)te;
 				if(tePrivAdaptable.getBlockForTexture() != null && tePrivAdaptable.getBlockForTexture().isOpaqueCube())
 				{
 					return tePrivAdaptable.getBlockForTexture().getIcon(side, tePrivAdaptable.getBlockMetadataForTexture());
+				}
+			}
+		}
+		else if(world.getBlockMetadata(x, y, z) == 3)
+		{
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te instanceof TileEntityPrivateFurnace)
+			{
+				if(side < 2)
+				{
+					return this.furnaceIcon[0];
+				}
+				TileEntityPrivateFurnace furnace = (TileEntityPrivateFurnace)te;
+				switch(furnace.getDirection())
+				{
+				case 2:
+					return side == 3 ? (furnace.isActive() ? this.furnaceIcon[3] : this.furnaceIcon[2]) : this.furnaceIcon[1];
+				case 3:
+					return side == 4 ? (furnace.isActive() ? this.furnaceIcon[3] : this.furnaceIcon[2]) : this.furnaceIcon[1];
+				case 4:
+					return side == 2 ? (furnace.isActive() ? this.furnaceIcon[3] : this.furnaceIcon[2]) : this.furnaceIcon[1];
+				case 5:
+					return side == 5 ? (furnace.isActive() ? this.furnaceIcon[3] : this.furnaceIcon[2]) : this.furnaceIcon[1];
 				}
 			}
 		}
@@ -245,7 +268,7 @@ public class BlockPrivate extends Block
 		case 2:
 			return this.adaptableIcon;
 		case 3:
-			return side < 2 ? this.furnaceIcon[side] : side ==  2 ? this.furnaceIcon[2] : this.furnaceIcon[3];
+			return side < 2 ? this.furnaceIcon[0] : side == 3 ? this.furnaceIcon[2] : this.furnaceIcon[1];
 			// case 4:
 			// return this.friendlyStoneIcon;
 			// case 5:
@@ -448,5 +471,19 @@ public class BlockPrivate extends Block
 			}
 		}
 		super.breakBlock(world, x, y, z, block, metadata);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	{
+		if(world.getBlockMetadata(x, y, z) == 3)
+		{
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te instanceof TileEntityPrivateFurnace && ((TileEntityPrivateFurnace)te).isActive())
+			{
+				return 13;
+			}
+		}
+		return super.getLightValue(world, x, y, z);
 	}
 }

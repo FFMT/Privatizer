@@ -5,6 +5,7 @@ tile.private.stone.name=Pierre privée
 tile.private.brick.name=Brique privée
 tile.private.adaptable.name=Bloc privé adaptable
 tile.private.adaptable.desc=Faite un clic droit dessus avec un\nautre bloc et la texture va changer !
+tile.private.furnace.name=Four privé
 tile.privateChest.name=Coffre privé
 tile.privateDoor.name=Porte privé
 
