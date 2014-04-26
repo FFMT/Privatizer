@@ -24,6 +24,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -195,7 +196,7 @@ public class BlockPrivate extends Block
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tabs, List list)
 	{
-		for(int i = 0; i < this.subBlock.length; i++)
+		for(int i = 0; i < 4; i++)
 		{
 			list.add(new ItemStack(item, 1, i));
 		}
@@ -231,7 +232,7 @@ public class BlockPrivate extends Block
 				}
 			}
 		}
-		else if(world.getBlockMetadata(x, y, z) == 3)
+		if(world.getBlockMetadata(x, y, z) == 3)
 		{
 			TileEntity te = world.getTileEntity(x, y, z);
 			if(te instanceof TileEntityPrivateFurnace)
@@ -472,7 +473,7 @@ public class BlockPrivate extends Block
 		}
 		super.breakBlock(world, x, y, z, block, metadata);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public int getLightValue(IBlockAccess world, int x, int y, int z)
 	{
@@ -485,5 +486,43 @@ public class BlockPrivate extends Block
 			}
 		}
 		return super.getLightValue(world, x, y, z);
+	}
+
+	@Override
+	public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
+	{
+		if((axis == ForgeDirection.UP || axis == ForgeDirection.DOWN) && !world.isRemote && world.getBlockMetadata(x, y, z) == 3)
+		{
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if(tile instanceof TileEntityPrivateFurnace)
+			{
+				TileEntityPrivateFurnace teFurnace = (TileEntityPrivateFurnace)tile;
+				byte direction = teFurnace.getDirection();
+				direction++;
+				if(direction > 5)
+				{
+					direction = 2;
+				}
+				teFurnace.setDirection(direction);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public ForgeDirection[] getValidRotations(World world, int x, int y, int z)
+	{
+		if(world.getBlockMetadata(x, y, z) == 3)
+		{
+			return new ForgeDirection[] {ForgeDirection.UP, ForgeDirection.DOWN};
+		}
+		return ForgeDirection.VALID_DIRECTIONS;
+	}
+
+	public boolean onBlockEventReceived(World world, int x, int y, int z, int eventId, int value)
+	{
+		super.onBlockEventReceived(world, x, y, z, eventId, value);
+		TileEntity tileentity = world.getTileEntity(x, y, z);
+		return tileentity != null ? tileentity.receiveClientEvent(eventId, value) : false;
 	}
 }

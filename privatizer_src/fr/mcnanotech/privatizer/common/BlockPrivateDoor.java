@@ -247,11 +247,6 @@ public class BlockPrivateDoor extends Block
 		return super.collisionRayTrace(world, x, y, z, vec31, vec32);
 	}
 
-	public int getMobilityFlag()
-	{
-		return 1;
-	}
-
 	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
 		return y >= 255 ? false : World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && super.canPlaceBlockAt(world, x, y, z) && super.canPlaceBlockAt(world, x, y + 1, z);

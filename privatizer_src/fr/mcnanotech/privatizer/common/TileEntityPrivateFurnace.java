@@ -40,11 +40,6 @@ public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISide
 		this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 	}
 
-	public boolean isActive()
-	{
-		return this.active;
-	}
-
 	public Packet getDescriptionPacket()
 	{
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -55,6 +50,7 @@ public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISide
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
 	{
 		this.readFromNBT(pkt.func_148857_g());
+		this.worldObj.markBlockRangeForRenderUpdate(this.xCoord, this.yCoord, this.zCoord, this.xCoord, this.yCoord, this.zCoord);
 	}
 
 	@Override
@@ -160,7 +156,7 @@ public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISide
 		this.furnaceCookTime = nbtTag.getShort("CookTime");
 		this.currentItemBurnTime = getItemBurnTime(this.contents[1]);
 
-		if(nbtTag.hasKey("CustomName", 8))
+		if(nbtTag.hasKey("CustomName", Constants.NBT.TAG_STRING))
 		{
 			this.customName = nbtTag.getString("CustomName");
 		}
@@ -224,6 +220,11 @@ public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISide
 		return this.furnaceBurnTime > 0;
 	}
 
+	public boolean isActive()
+	{
+		return this.active;
+	}
+
 	public void updateEntity()
 	{
 		boolean active = this.furnaceBurnTime > 0;
@@ -278,7 +279,6 @@ public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISide
 				this.active = this.furnaceBurnTime > 0;
 				if(!this.worldObj.isRemote)
 				{
-					this.worldObj.notifyBlockChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
 					this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 				}
 			}

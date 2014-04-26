@@ -4,9 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -208,11 +206,11 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 			{
 				EntityPlayer entityplayer = (EntityPlayer)iterator.next();
 
-				if(entityplayer.openContainer instanceof ContainerChest)
+				if(entityplayer.openContainer instanceof ContainerPrivateChest)
 				{
-					IInventory iinventory = ((ContainerChest)entityplayer.openContainer).getLowerChestInventory();
+					IInventory iinventory = ((ContainerPrivateChest)entityplayer.openContainer).getTile();
 
-					if(iinventory == this || iinventory instanceof InventoryLargeChest && ((InventoryLargeChest)iinventory).isPartOfLargeChest(this))
+					if(iinventory == this)
 					{
 						++this.numPlayersUsing;
 					}
@@ -226,10 +224,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 
 		if(this.numPlayersUsing > 0 && this.lidAngle == 0.0F)
 		{
-			double d1 = (double)this.xCoord + 0.5D;
-			d2 = (double)this.zCoord + 0.5D;
-
-			this.worldObj.playSoundEffect(d1, (double)this.yCoord + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			this.worldObj.playSoundEffect(this.xCoord + 0.5D, (double)this.yCoord + 0.5D, this.zCoord + 0.5D, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
 		if(this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F)
@@ -254,10 +249,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 
 			if(this.lidAngle < f2 && f1 >= f2)
 			{
-				d2 = (double)this.xCoord + 0.5D;
-				double d0 = (double)this.zCoord + 0.5D;
-
-				this.worldObj.playSoundEffect(d2, (double)this.yCoord + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				this.worldObj.playSoundEffect(this.xCoord + 0.5D, (double)this.yCoord + 0.5D, this.zCoord + 0.5D, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 			}
 
 			if(this.lidAngle < 0.0F)

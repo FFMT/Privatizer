@@ -161,7 +161,13 @@ public class BlockPrivateChest extends Block
 			if(tile instanceof TileEntityPrivateChest)
 			{
 				TileEntityPrivateChest tePrivate = (TileEntityPrivateChest)tile;
-				tePrivate.setDirection((byte)ForgeDirection.getOrientation(tePrivate.getDirection()).getRotation(axis).ordinal());
+				byte direction = tePrivate.getDirection();
+				direction++;
+				if(direction > 5)
+				{
+					direction = 2;
+				}
+				tePrivate.setDirection(direction);
 				return true;
 			}
 		}
