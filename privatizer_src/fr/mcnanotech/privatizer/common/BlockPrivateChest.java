@@ -2,6 +2,7 @@ package fr.mcnanotech.privatizer.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -22,6 +24,9 @@ import fr.minecraftforgefrance.ffmtlibs.FFMTClientRegistry;
 
 public class BlockPrivateChest extends Block
 {
+	public static String[] subBlock = new String[] {"private", "friendly", "password"};
+	private IIcon[] icons = new IIcon[subBlock.length];
+
 	protected BlockPrivateChest(Material material)
 	{
 		super(material);
@@ -41,6 +46,16 @@ public class BlockPrivateChest extends Block
 	public int getRenderType()
 	{
 		return FFMTClientRegistry.tesrRenderId;
+	}
+
+	public void registerBlockIcons(IIconRegister iiconRegister)
+	{
+
+	}
+
+	public IIcon getIcon(int side, int metadata)
+	{
+		return PrivatizerMod.privateBlock.getIcon(0, 0);
 	}
 
 	public boolean hasTileEntity(int metadata)
