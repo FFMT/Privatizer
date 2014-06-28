@@ -1,5 +1,8 @@
 package fr.mcnanotech.privatizer.common;
 
+import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
 import com.google.common.base.Splitter;
@@ -10,10 +13,10 @@ public class PrivatizerHelper
 {
 	public static final Splitter newLineSplitter = Splitter.on("\\n");
 
-	public static boolean canBreak(String player, String owner)
+	public static boolean canBreak(EntityPlayer player, UUID owner)
 	{
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		if(owner != null && !owner.isEmpty() && (player.equals(owner) || (PrivatizerMod.opCanRemoveBlock && server.getConfigurationManager().isPlayerOpped(player))))
+		if(owner != null && (player.getUniqueID().equals(owner) || (PrivatizerMod.opCanRemoveBlock && server.getConfigurationManager().func_152596_g(player.getGameProfile()))))
 		{
 			return true;
 		}

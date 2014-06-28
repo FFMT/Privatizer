@@ -1,33 +1,40 @@
 package fr.mcnanotech.privatizer.common;
 
+import java.util.UUID;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.Constants;
 
 public class TileEntityPrivate extends TileEntity
 {
-	private String owner;
+	private UUID owner;
 
 	public void readFromNBT(NBTTagCompound nbtTag)
 	{
 		super.readFromNBT(nbtTag);
-		this.owner = nbtTag.getString("owner");
+		if(nbtTag.hasKey("UUIDMost", Constants.NBT.TAG_LONG) && nbtTag.hasKey("UUIDLeast", Constants.NBT.TAG_LONG))
+		{
+			this.owner = new UUID(nbtTag.getLong("UUIDMost"), nbtTag.getLong("UUIDLeast"));
+		}
 	}
 
 	public void writeToNBT(NBTTagCompound nbtTag)
 	{
 		super.writeToNBT(nbtTag);
-		if(this.owner != null && !this.owner.isEmpty())
+		if(this.owner != null)
 		{
-			nbtTag.setString("owner", this.owner);
+			nbtTag.setLong("UUIDMost", this.owner.getMostSignificantBits());
+			nbtTag.setLong("UUIDLeast", this.owner.getLeastSignificantBits());
 		}
 	}
 
-	public void setOwner(String str)
+	public void setOwner(UUID id)
 	{
-		this.owner = str;
+		this.owner = id;
 	}
 
-	public String getOwner()
+	public UUID getOwner()
 	{
 		return this.owner;
 	}

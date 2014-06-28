@@ -78,7 +78,7 @@ public class BlockPrivateChest extends Block
 		if(world.getBlockMetadata(x, y, z) == 0 && tile instanceof TileEntityPrivateChest && !player.isSneaking())
 		{
 			TileEntityPrivateChest chest = (TileEntityPrivateChest)tile;
-			if(PrivatizerHelper.canBreak(player.getCommandSenderName(), chest.getOwner()))
+			if(PrivatizerHelper.canBreak(player, chest.getOwner()))
 			{
 				player.openGui(PrivatizerMod.instance, 0, world, x, y, z);
 			}
@@ -116,7 +116,7 @@ public class BlockPrivateChest extends Block
 			if(te instanceof TileEntityPrivateChest)
 			{
 				TileEntityPrivateChest tePrivate = (TileEntityPrivateChest)te;
-				tePrivate.setOwner(living.getCommandSenderName());
+				tePrivate.setOwner(living.getUniqueID());
 				tePrivate.setDirection((byte)direction);
 				if(stack.hasDisplayName())
 				{
@@ -132,7 +132,7 @@ public class BlockPrivateChest extends Block
 		if(te != null && te instanceof TileEntityPrivate)
 		{
 			TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-			if(!player.getCommandSenderName().equals(tePrivate.getOwner()))
+			if(!player.getUniqueID().equals(tePrivate.getOwner()))
 			{
 				return -1;
 			}
@@ -148,7 +148,7 @@ public class BlockPrivateChest extends Block
 			if(te instanceof TileEntityPrivate)
 			{
 				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-				if(!player.getCommandSenderName().equals(tePrivate.getOwner()))
+				if(!player.getUniqueID().equals(tePrivate.getOwner()))
 				{
 					player.addChatMessage(new ChatComponentTranslation("message.deny.open", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
 				}
@@ -158,13 +158,13 @@ public class BlockPrivateChest extends Block
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
 	{
-		return AxisAlignedBB.getAABBPool().getAABB(x + 0.065D, y, z + 0.065D, x + 0.935D, y + 1, z + 0.935D);
+		return AxisAlignedBB.getBoundingBox(x + 0.065D, y, z + 0.065D, x + 0.935D, y + 1, z + 0.935D);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
 	{
-		return AxisAlignedBB.getAABBPool().getAABB(x + 0.065D, y, z + 0.065D, x + 0.935D, y + 1, z + 0.935D);
+		return AxisAlignedBB.getBoundingBox(x + 0.065D, y, z + 0.065D, x + 0.935D, y + 1, z + 0.935D);
 	}
 
 	@Override

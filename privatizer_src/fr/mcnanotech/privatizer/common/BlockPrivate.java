@@ -92,12 +92,12 @@ public class BlockPrivate extends Block
 		if(stack.getItemDamage() >= 0 && stack.getItemDamage() <= 2 && tile instanceof TileEntityPrivate)
 		{
 			TileEntityPrivate tilePrivate = (TileEntityPrivate)tile;
-			tilePrivate.setOwner(living.getCommandSenderName());
+			tilePrivate.setOwner(living.getUniqueID());
 		}
 		else if(stack.getItemDamage() == 3)
 		{
 			TileEntityPrivateFurnace tilePrivateFurnace = (TileEntityPrivateFurnace)tile;
-			tilePrivateFurnace.setOwner(living.getCommandSenderName());
+			tilePrivateFurnace.setOwner(living.getUniqueID());
 			tilePrivateFurnace.setDirection((byte)direction);
 			if(stack.hasDisplayName())
 			{
@@ -161,7 +161,7 @@ public class BlockPrivate extends Block
 			}
 
 			TileEntityPrivateFurnace furnace = (TileEntityPrivateFurnace)te;
-			if(PrivatizerHelper.canBreak(player.getCommandSenderName(), furnace.getOwner()))
+			if(PrivatizerHelper.canBreak(player, furnace.getOwner()))
 			{
 				player.openGui(PrivatizerMod.instance, 0, world, x, y, z);
 			}
@@ -180,7 +180,7 @@ public class BlockPrivate extends Block
 		if(te != null && te instanceof TileEntityPrivate)
 		{
 			TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-			if(!player.getCommandSenderName().equals(tePrivate.getOwner()))
+			if(!player.getUniqueID().equals(tePrivate.getOwner()))
 			{
 				return -1;
 			}
@@ -291,7 +291,7 @@ public class BlockPrivate extends Block
 			if(te != null && te instanceof TileEntityPrivate)
 			{
 				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-				if(!player.getCommandSenderName().equals(tePrivate.getOwner()))
+				if(!player.getUniqueID().equals(tePrivate.getOwner()))
 				{
 					player.addChatMessage(new ChatComponentTranslation("message.deny.open", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
 				}

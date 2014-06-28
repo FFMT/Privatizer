@@ -116,7 +116,7 @@ public class ItemBlockPrivateDoor extends ItemBlock
 		{
 			TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
 			tileDoor.setDirection(direction);
-			tileDoor.setOwner(player.getCommandSenderName());
+			tileDoor.setOwner(player.getUniqueID());
 		}
 		world.markBlockForUpdate(x, y, z);
 		world.notifyBlocksOfNeighborChange(x, y, z, block);

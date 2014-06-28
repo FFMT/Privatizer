@@ -26,11 +26,11 @@ public class TileEntityPrivateDoor extends TileEntityPrivate
 		for(int i = 0; i < entityTagetList.size(); i++)
 		{
 			EntityPlayer player = (EntityPlayer)entityTagetList.get(i);
-			if(!this.isOpen() && player.getCommandSenderName().equals(this.getOwner()))
+			if(!this.isOpen() && player.getUniqueID().equals(this.getOwner()))
 			{
 				this.setOpen(true);
 			}
-			else if(this.isOpen() && !player.getCommandSenderName().equals(this.getOwner()))
+			else if(this.isOpen() && !player.getUniqueID().equals(this.getOwner()))
 			{
 				this.setOpen(false);
 			}

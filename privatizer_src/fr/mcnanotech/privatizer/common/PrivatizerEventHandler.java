@@ -32,7 +32,7 @@ public class PrivatizerEventHandler
 		if(tile instanceof TileEntityPrivate)
 		{
 			TileEntityPrivate tePrivate = (TileEntityPrivate)tile;
-			if(!PrivatizerHelper.canBreak(player.getCommandSenderName(), tePrivate.getOwner()))
+			if(!PrivatizerHelper.canBreak(player, tePrivate.getOwner()))
 			{
 				player.addChatMessage(new ChatComponentTranslation("message.deny.break", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
 				return true;
