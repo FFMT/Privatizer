@@ -84,7 +84,7 @@ public class BlockPrivateChest extends Block
 			}
 			else
 			{
-				player.addChatMessage(new ChatComponentTranslation("message.deny.open", chest.getOwner() != null ? chest.getOwner() : "null"));
+				player.addChatMessage(new ChatComponentTranslation("message.deny.open", PrivatizerHelper.getUsername(chest.getOwner())));
 			}
 		}
 		return true;

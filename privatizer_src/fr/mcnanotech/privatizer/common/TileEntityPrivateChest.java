@@ -39,7 +39,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
 	{
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		this.writeToNBT(nbttagcompound);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbttagcompound);
 	}
 
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)

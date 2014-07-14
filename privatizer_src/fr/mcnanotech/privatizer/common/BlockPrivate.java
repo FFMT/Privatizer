@@ -167,7 +167,7 @@ public class BlockPrivate extends Block
 			}
 			else
 			{
-				player.addChatMessage(new ChatComponentTranslation("message.deny.open", furnace.getOwner() != null ? furnace.getOwner() : "null"));
+				player.addChatMessage(new ChatComponentTranslation("message.deny.open", PrivatizerHelper.getUsername(furnace.getOwner())));
 			}
 			return true;
 		}
