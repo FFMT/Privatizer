@@ -32,12 +32,7 @@ public class BlockPrivate extends Block
 {
 	public static String[] subBlock = new String[] {"stone", "brick", "adaptable", "furnace", "friendlyStone", "friendlyBrick", "friendlyAdaptable", "friendlyFurnace", "passwordStone", "passwordBrick", "passwordAdaptable", "passwordFurnace"};
 	public String[] furnaceTextureName = new String[] {"top", "side", "front", "front_on"};
-	public IIcon stoneIcon, brickIcon, adaptableIcon /*
-													 * , friendlyStoneIcon,
-													 * friendlyBrickIcon,
-													 * passwordStoneIcon,
-													 * passwordBrickIcon
-													 */;
+	public IIcon stoneIcon, brickIcon, adaptableIcon /* , friendlyStoneIcon, friendlyBrickIcon, passwordStoneIcon, passwordBrickIcon */;
 	public IIcon[] furnaceIcon = new IIcon[this.furnaceTextureName.length];
 
 	protected BlockPrivate(Material material)
@@ -76,8 +71,7 @@ public class BlockPrivate extends Block
 		case 6:
 			return new TileEntityFriend();
 		case 7:
-			return new TileEntityFriend(); // TODO create furnace tile entity
-											// friend
+			return new TileEntityFriend(); // TODO create furnace tile entity friend
 		case 8:
 			return new TileEntityPassword();
 		case 9:
@@ -85,8 +79,7 @@ public class BlockPrivate extends Block
 		case 10:
 			return new TileEntityPassword();
 		case 11:
-			return new TileEntityPassword(); // TODO create furnace tile entity
-												// password
+			return new TileEntityPassword(); // TODO create furnace tile entity password
 		default:
 			return null;
 		}
