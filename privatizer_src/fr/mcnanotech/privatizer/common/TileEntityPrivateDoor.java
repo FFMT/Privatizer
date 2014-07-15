@@ -13,7 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntityPrivateDoor extends TileEntityPrivate
 {
 	private int direction;
-	private boolean open;
+	private boolean open, doubleDoor;
 
 	public void updateEntity()
 	{
@@ -42,6 +42,7 @@ public class TileEntityPrivateDoor extends TileEntityPrivate
 		super.readFromNBT(compound);
 		this.direction = compound.getInteger("direction");
 		this.open = compound.getBoolean("open");
+		this.doubleDoor = compound.getBoolean("double");
 	}
 
 	public void writeToNBT(NBTTagCompound compound)
@@ -49,6 +50,7 @@ public class TileEntityPrivateDoor extends TileEntityPrivate
 		super.writeToNBT(compound);
 		compound.setInteger("direction", this.direction);
 		compound.setBoolean("open", this.open);
+		compound.setBoolean("double", this.doubleDoor);
 	}
 
 	public int getDirection()
@@ -75,6 +77,16 @@ public class TileEntityPrivateDoor extends TileEntityPrivate
 		}
 		this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 		this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord + 1, this.zCoord);
+	}
+	
+	public boolean isDoubleDoor()
+	{
+		return doubleDoor;
+	}
+
+	public void setDoubleDoor(boolean doubleDoor)
+	{
+		this.doubleDoor = doubleDoor;
 	}
 
 	public Packet getDescriptionPacket()

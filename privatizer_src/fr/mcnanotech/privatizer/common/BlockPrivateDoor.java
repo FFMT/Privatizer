@@ -15,12 +15,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fr.mcnanotech.privatizer.client.ClientProxy;
 
 public class BlockPrivateDoor extends Block
 {
-	@SideOnly(Side.CLIENT)
 	private IIcon[] upperIcon;
-	@SideOnly(Side.CLIENT)
 	private IIcon[] lowerIcon;
 
 	protected BlockPrivateDoor(Material material)
@@ -62,11 +61,62 @@ public class BlockPrivateDoor extends Block
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
 	{
+		if(side < 2)
+		{
+			return this.lowerIcon[0];
+		}
 		if(world.getBlockMetadata(x, y, z) == 1)
 		{
-			return this.upperIcon[0];
+			TileEntity tile = world.getTileEntity(x, y - 1, z);
+			if(tile instanceof TileEntityPrivateDoor)
+			{
+				TileEntityPrivateDoor door = (TileEntityPrivateDoor)tile;
+				return shouldFlip(side, door.getDirection(), door.isDoubleDoor(), door.isOpen()) ? this.upperIcon[1] : this.upperIcon[0];
+			}
 		}
+		else
+		{
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if(tile instanceof TileEntityPrivateDoor)
+			{
+				TileEntityPrivateDoor door = (TileEntityPrivateDoor)tile;
+				return shouldFlip(side, door.getDirection(), door.isDoubleDoor(), door.isOpen()) ? this.lowerIcon[1] : this.lowerIcon[0];
+			}
+		}
+
 		return this.lowerIcon[0];
+	}
+
+	private boolean shouldFlip(int side, int direction, boolean doubleDoor, boolean open)
+	{
+		switch(direction)
+		{
+		case 0:
+			if((side == 5 && !open && !doubleDoor) || (side == 2 && open) || (side == 4 && doubleDoor))
+			{
+				return true;
+			}
+			break;
+		case 1:
+			if((side == 3 && !open && !doubleDoor) || (side == 5 && open) || (side == 2 && doubleDoor))
+			{
+				return true;
+			}
+			break;
+		case 2:
+			if((side == 4 && !open && !doubleDoor) || (side == 3 && open) || (side == 5 && doubleDoor))
+			{
+				return true;
+			}
+			break;
+		case 3:
+			if((side == 2 && !open && !doubleDoor) || (side == 4 && open) || (side == 3 && doubleDoor))
+			{
+				return true;
+			}
+			break;
+		}
+		return false;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -90,9 +140,10 @@ public class BlockPrivateDoor extends Block
 		return false;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public int getRenderType()
 	{
-		return 7;
+		return ClientProxy.doorId;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -113,24 +164,24 @@ public class BlockPrivateDoor extends Block
 		if(world.getBlockMetadata(x, y, z) == 0)
 		{
 			TileEntity te = world.getTileEntity(x, y, z);
-			if(te != null && te instanceof TileEntityPrivateDoor)
+			if(te instanceof TileEntityPrivateDoor)
 			{
 				TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
-				this.setBlockBounds(0.0F, 2.0F, tileDoor.getDirection(), tileDoor.isOpen());
+				this.setBlockBounds(0.0F, 1.0F, tileDoor.getDirection(), tileDoor.isOpen(), tileDoor.isDoubleDoor());
 			}
 		}
 		else if(world.getBlockMetadata(x, y, z) == 1)
 		{
 			TileEntity te = world.getTileEntity(x, y - 1, z);
-			if(te != null && te instanceof TileEntityPrivateDoor)
+			if(te instanceof TileEntityPrivateDoor)
 			{
 				TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
-				this.setBlockBounds(-1.0F, 1.0F, tileDoor.getDirection(), tileDoor.isOpen());
+				this.setBlockBounds(0, 1.0F, tileDoor.getDirection(), tileDoor.isOpen(), tileDoor.isDoubleDoor());
 			}
 		}
 	}
 
-	public void setBlockBounds(float min, float max, int direction, boolean open)
+	public void setBlockBounds(float min, float max, int direction, boolean open, boolean doubleDoor)
 	{
 		float f = 0.1875F;
 		switch(direction)
@@ -138,60 +189,56 @@ public class BlockPrivateDoor extends Block
 		case 0:
 			if(open)
 			{
+				if(doubleDoor)
+				{
+					this.setBlockBounds(0.0F, min, 1.0F - f, 1.0F, max, 1.0F);
+					break;
+				}
 				this.setBlockBounds(0.0F, min, 0.0F, 1.0F, max, f);
+				break;
 			}
-			else
-			{
-				this.setBlockBounds(0.0F, min, 0.0F, f, max, 1.0F);
-			}
+			this.setBlockBounds(0.0F, min, 0.0F, f, max, 1.0F);
 			break;
 		case 1:
 			if(open)
 			{
+				if(doubleDoor)
+				{
+					this.setBlockBounds(0.0F, min, 0.0F, f, max, 1.0F);
+					break;
+				}
 				this.setBlockBounds(1.0F - f, min, 0.0F, 1.0F, max, 1.0F);
+				break;
 			}
-			else
-			{
-				this.setBlockBounds(0.0F, min, 0.0F, 1.0F, max, f);
-			}
+			this.setBlockBounds(0.0F, min, 0.0F, 1.0F, max, f);
 			break;
 		case 2:
 			if(open)
 			{
+				if(doubleDoor)
+				{
+					this.setBlockBounds(0.0F, min, 0.0F, 1.0F, max, f);
+					break;
+				}
 				this.setBlockBounds(0.0F, min, 1.0F - f, 1.0F, max, 1.0F);
+				break;
 			}
-			else
-			{
-				this.setBlockBounds(1.0F - f, min, 0.0F, 1.0F, max, 1.0F);
-			}
+			this.setBlockBounds(1.0F - f, min, 0.0F, 1.0F, max, 1.0F);
 			break;
 		case 3:
 			if(open)
 			{
+				if(doubleDoor)
+				{
+					this.setBlockBounds(1.0F - f, min, 0.0F, 1.0F, max, 1.0F);
+					break;
+				}
 				this.setBlockBounds(0.0F, min, 0.0F, f, max, 1.0F);
+				break;
 			}
-			else
-			{
-				this.setBlockBounds(0.0F, min, 1.0F - f, 1.0F, max, 1.0F);
-			}
+			this.setBlockBounds(0.0F, min, 1.0F - f, 1.0F, max, 1.0F);
 			break;
 		}
-	}
-
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{
-		if(!world.isRemote)
-		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te != null)
-			{
-				TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
-				player.addChatMessage(new ChatComponentText("world : " + (world.isRemote ? "client" : "server")));
-				player.addChatMessage(new ChatComponentText("direction : " + tileDoor.getDirection()));
-				player.addChatMessage(new ChatComponentText("owner : " + tileDoor.getOwner()));
-			}
-		}
-		return true;
 	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)

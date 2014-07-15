@@ -17,7 +17,7 @@ public class ItemBlockPrivateDoor extends ItemBlock
 	public ItemBlockPrivateDoor(Block block)
 	{
 		super(block);
-		this.maxStackSize = 3;
+		this.maxStackSize = 16;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -94,29 +94,26 @@ public class ItemBlockPrivateDoor extends ItemBlock
 			b0 = 1;
 		}
 
-		int i1 = (world.getBlock(x - b0, y, z - b1).isNormalCube() ? 1 : 0) + (world.getBlock(x - b0, y + 1, z - b1).isNormalCube() ? 1 : 0);
-		int j1 = (world.getBlock(x + b0, y, z + b1).isNormalCube() ? 1 : 0) + (world.getBlock(x + b0, y + 1, z + b1).isNormalCube() ? 1 : 0);
-		boolean flag = world.getBlock(x - b0, y, z - b1) == block || world.getBlock(x - b0, y + 1, z - b1) == block;
-		boolean flag1 = world.getBlock(x + b0, y, z + b1) == block || world.getBlock(x + b0, y + 1, z + b1) == block;
-		boolean flag2 = false;
-
-		if(flag && !flag1)
-		{
-			flag2 = true;
-		}
-		else if(j1 > i1)
-		{
-			flag2 = true;
-		}
-
 		world.setBlock(x, y, z, block, 0, 2);
 		world.setBlock(x, y + 1, z, block, 1, 2);
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(te != null && te instanceof TileEntityPrivateDoor)
+		if(te instanceof TileEntityPrivateDoor)
 		{
 			TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
 			tileDoor.setDirection(direction);
 			tileDoor.setOwner(player.getUniqueID());
+			if(world.getBlock(x - b0, y, z - b1) == PrivatizerMod.privateDoor && world.getBlockMetadata(x - b0, y, z - b1) == 0)
+			{
+				TileEntity adjacentTe = world.getTileEntity(x - b0, y, z - b1);
+				if(te instanceof TileEntityPrivateDoor)
+				{
+					TileEntityPrivateDoor adjacentTileDoor = (TileEntityPrivateDoor)adjacentTe;
+					if(!adjacentTileDoor.isDoubleDoor())
+					{
+						tileDoor.setDoubleDoor(true);
+					}
+				}
+			}
 		}
 		world.markBlockForUpdate(x, y, z);
 		world.notifyBlocksOfNeighborChange(x, y, z, block);

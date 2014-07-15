@@ -65,7 +65,7 @@ public class PrivatizerMod
 			}
 		}
 
-		privateBlock = new BlockPrivate(Material.rock).setBlockName("private").setResistance(5000F).setHardness(10F).setCreativeTab(privatizerTab);
+		privateBlock = new BlockPrivate(Material.iron).setBlockName("private").setResistance(5000F).setHardness(10F).setCreativeTab(privatizerTab);
 		privateChest = new BlockPrivateChest(Material.iron).setBlockName("privateChest").setResistance(5000F).setHardness(10F).setCreativeTab(privatizerTab);
 		privateDoor = new BlockPrivateDoor(Material.iron).setBlockName("privateDoor").setResistance(5000F).setHardness(10F).setCreativeTab(privatizerTab);
 
