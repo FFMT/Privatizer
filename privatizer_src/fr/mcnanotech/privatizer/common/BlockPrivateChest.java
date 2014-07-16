@@ -84,7 +84,7 @@ public class BlockPrivateChest extends Block
 			}
 			else
 			{
-				player.addChatMessage(new ChatComponentTranslation("message.deny.open", PrivatizerHelper.getUsername(chest.getOwner())));
+				player.addChatMessage(new ChatComponentTranslation("message.deny.open", chest.getOwner() != null ? chest.getOwner().getName() : "unknown"));
 			}
 		}
 		return true;
@@ -110,17 +110,21 @@ public class BlockPrivateChest extends Block
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase living, ItemStack stack)
 	{
 		int direction = (MathHelper.floor_double((double)(living.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3) + 2;
-		if(stack.getItemDamage() == 0)
+		if(living instanceof EntityPlayer)
 		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te instanceof TileEntityPrivateChest)
+			EntityPlayer player = (EntityPlayer)living;
+			if(stack.getItemDamage() == 0)
 			{
-				TileEntityPrivateChest tePrivate = (TileEntityPrivateChest)te;
-				tePrivate.setOwner(living.getUniqueID());
-				tePrivate.setDirection((byte)direction);
-				if(stack.hasDisplayName())
+				TileEntity te = world.getTileEntity(x, y, z);
+				if(te instanceof TileEntityPrivateChest)
 				{
-					tePrivate.setInventoryName(stack.getDisplayName());
+					TileEntityPrivateChest tePrivate = (TileEntityPrivateChest)te;
+					tePrivate.setOwner(player.getGameProfile());
+					tePrivate.setDirection((byte)direction);
+					if(stack.hasDisplayName())
+					{
+						tePrivate.setInventoryName(stack.getDisplayName());
+					}
 				}
 			}
 		}
@@ -132,7 +136,7 @@ public class BlockPrivateChest extends Block
 		if(te != null && te instanceof TileEntityPrivate)
 		{
 			TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-			if(!player.getUniqueID().equals(tePrivate.getOwner()))
+			if(!player.getGameProfile().equals(tePrivate.getOwner()))
 			{
 				return -1;
 			}
@@ -148,9 +152,9 @@ public class BlockPrivateChest extends Block
 			if(te instanceof TileEntityPrivate)
 			{
 				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-				if(!player.getUniqueID().equals(tePrivate.getOwner()))
+				if(!player.getGameProfile().equals(tePrivate.getOwner()))
 				{
-					player.addChatMessage(new ChatComponentTranslation("message.deny.open", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
+					player.addChatMessage(new ChatComponentTranslation("message.deny.open", tePrivate.getOwner() != null ? tePrivate.getOwner().getName() : "unknown"));
 				}
 			}
 		}

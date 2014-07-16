@@ -101,7 +101,7 @@ public class ItemBlockPrivateDoor extends ItemBlock
 		{
 			TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
 			tileDoor.setDirection(direction);
-			tileDoor.setOwner(player.getUniqueID());
+			tileDoor.setOwner(player.getGameProfile());
 			if(world.getBlock(x - b0, y, z - b1) == PrivatizerMod.privateDoor && world.getBlockMetadata(x - b0, y, z - b1) == 0)
 			{
 				TileEntity adjacentTe = world.getTileEntity(x - b0, y, z - b1);

@@ -89,37 +89,41 @@ public class BlockPrivate extends Block
 	{
 		TileEntity tile = world.getTileEntity(x, y, z);
 		int direction = (MathHelper.floor_double((double)(living.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3) + 2;
-		if(stack.getItemDamage() >= 0 && stack.getItemDamage() <= 2 && tile instanceof TileEntityPrivate)
+		if(living instanceof EntityPlayer)
 		{
-			TileEntityPrivate tilePrivate = (TileEntityPrivate)tile;
-			tilePrivate.setOwner(living.getUniqueID());
-		}
-		else if(stack.getItemDamage() == 3)
-		{
-			TileEntityPrivateFurnace tilePrivateFurnace = (TileEntityPrivateFurnace)tile;
-			tilePrivateFurnace.setOwner(living.getUniqueID());
-			tilePrivateFurnace.setDirection((byte)direction);
-			if(stack.hasDisplayName())
+			EntityPlayer player = (EntityPlayer)living;
+			if(stack.getItemDamage() >= 0 && stack.getItemDamage() <= 2 && tile instanceof TileEntityPrivate)
 			{
-				tilePrivateFurnace.setInventoryName(stack.getDisplayName());
+				TileEntityPrivate tilePrivate = (TileEntityPrivate)tile;
+				tilePrivate.setOwner(player.getGameProfile());
 			}
-		}
-		else if(stack.getItemDamage() >= 4 && stack.getItemDamage() <= 7)
-		{
-			if(tile instanceof TileEntityFriend)
+			else if(stack.getItemDamage() == 3)
 			{
-				TileEntityFriend teFriend = (TileEntityFriend)tile;
-				// TODO friend list
-				// teFriend.setOwners(list);
+				TileEntityPrivateFurnace tilePrivateFurnace = (TileEntityPrivateFurnace)tile;
+				tilePrivateFurnace.setOwner(player.getGameProfile());
+				tilePrivateFurnace.setDirection((byte)direction);
+				if(stack.hasDisplayName())
+				{
+					tilePrivateFurnace.setInventoryName(stack.getDisplayName());
+				}
 			}
-		}
-		else if(stack.getItemDamage() >= 8 && stack.getItemDamage() <= 11)
-		{
-			if(tile instanceof TileEntityPassword)
+			else if(stack.getItemDamage() >= 4 && stack.getItemDamage() <= 7)
 			{
-				TileEntityPassword tePassword = (TileEntityPassword)tile;
-				// TODO password
-				// tePassword.setPassword(str);
+				if(tile instanceof TileEntityFriend)
+				{
+					TileEntityFriend teFriend = (TileEntityFriend)tile;
+					// TODO friend list
+					// teFriend.setOwners(list);
+				}
+			}
+			else if(stack.getItemDamage() >= 8 && stack.getItemDamage() <= 11)
+			{
+				if(tile instanceof TileEntityPassword)
+				{
+					TileEntityPassword tePassword = (TileEntityPassword)tile;
+					// TODO password
+					// tePassword.setPassword(str);
+				}
 			}
 		}
 	}
@@ -167,7 +171,7 @@ public class BlockPrivate extends Block
 			}
 			else
 			{
-				player.addChatMessage(new ChatComponentTranslation("message.deny.open", PrivatizerHelper.getUsername(furnace.getOwner())));
+				player.addChatMessage(new ChatComponentTranslation("message.deny.open", furnace.getOwner() != null ? furnace.getOwner().getName() : "unknown"));
 			}
 			return true;
 		}
@@ -180,7 +184,7 @@ public class BlockPrivate extends Block
 		if(te != null && te instanceof TileEntityPrivate)
 		{
 			TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-			if(!player.getUniqueID().equals(tePrivate.getOwner()))
+			if(!player.getGameProfile().equals(tePrivate.getOwner()))
 			{
 				return -1;
 			}
@@ -295,9 +299,9 @@ public class BlockPrivate extends Block
 			if(te != null && te instanceof TileEntityPrivate)
 			{
 				TileEntityPrivate tePrivate = (TileEntityPrivate)te;
-				if(!player.getUniqueID().equals(tePrivate.getOwner()))
+				if(!player.getGameProfile().equals(tePrivate.getOwner()))
 				{
-					player.addChatMessage(new ChatComponentTranslation("message.deny.open", tePrivate.getOwner() != null ? tePrivate.getOwner() : "null"));
+					player.addChatMessage(new ChatComponentTranslation("message.deny.open", tePrivate.getOwner() != null ? tePrivate.getOwner().getName() : "unknown"));
 				}
 			}
 		}
