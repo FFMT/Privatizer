@@ -18,7 +18,7 @@ buildscript {
 apply plugin: 'forge'
 
 ext.buildnumber = 0
-version = "0.0.1"
+version = "0.1.0"
 group= "fr.mcnanotech.privatizer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Privatizer"
 
@@ -32,7 +32,7 @@ else {
 
 minecraft {
     version = "1.7.10-10.13.0.1151"
-    assetDir = "eclipse/assets"
+    runDir = "run"
 }
 
 sourceSets {
@@ -46,18 +46,15 @@ sourceSets {
     }
 }
 
+repositories {
+    maven {
+        name = "mff"
+        url = "http://files.minecraftforgefrance.fr/maven/"
+    }
+}
+
 dependencies {
-    def lib = new File(rootProject.projectDir, 'libs')
-    if(!lib.exists()) {
-        lib.mkdirs()
-    }
-    
-    def ffmtlibUrl = "http://ci.mcnanotech.fr/job/FFMT-libs/87/artifact/build/libs/FFMT-libs-deobf-dev-1.4.3.87-mc1.7.10.jar"
-    def ffmtlib = new File(rootProject.projectDir, "libs/" + ffmtlibUrl.tokenize("/")[-1])
-    if (!ffmtlib.exists()) {
-        new URL(ffmtlibUrl).withInputStream{ i -> ffmtlib.withOutputStream{ it << i }}
-    }
-    compile files(ffmtlib.getPath())
+   compile 'fr.minecraftforgefrance:FFMTlibs:1.4.3.89-mc1.7.10:dev'	
 }
 
 processResources
