@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-   compile 'fr.minecraftforgefrance:FFMT-libs:1.4.3.91-mc1.7.10:dev'	
+   compile 'fr.minecraftforgefrance:FFMT-libs:1.4.3.89-mc1.7.10:dev'	
 }
 
 processResources
