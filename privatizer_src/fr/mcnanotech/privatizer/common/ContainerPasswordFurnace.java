@@ -12,19 +12,19 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ContainerPrivateFurnace extends Container
+public class ContainerPasswordFurnace extends Container
 {
-    private TileEntityPrivateFurnace tilePrivateFurnace;
+    private TileEntityPasswordFurnace tilePasswordFurnace;
     private int lastCookTime;
     private int lastBurnTime;
     private int lastItemBurnTime;
 
-    public ContainerPrivateFurnace(TileEntityPrivateFurnace te, InventoryPlayer inventory)
+    public ContainerPasswordFurnace(TileEntityPasswordFurnace te, InventoryPlayer inventory)
     {
-        this.tilePrivateFurnace = te;
-        this.addSlotToContainer(new Slot(this.tilePrivateFurnace, 0, 56, 17));
-        this.addSlotToContainer(new Slot(this.tilePrivateFurnace, 1, 56, 53));
-        this.addSlotToContainer(new SlotFurnace(inventory.player, this.tilePrivateFurnace, 2, 116, 35));
+        this.tilePasswordFurnace = te;
+        this.addSlotToContainer(new Slot(this.tilePasswordFurnace, 0, 56, 17));
+        this.addSlotToContainer(new Slot(this.tilePasswordFurnace, 1, 56, 53));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, this.tilePasswordFurnace, 2, 116, 35));
         int i;
 
         for(i = 0; i < 3; ++i)
@@ -44,9 +44,9 @@ public class ContainerPrivateFurnace extends Container
     public void addCraftingToCrafters(ICrafting crafting)
     {
         super.addCraftingToCrafters(crafting);
-        crafting.sendProgressBarUpdate(this, 0, this.tilePrivateFurnace.furnaceCookTime);
-        crafting.sendProgressBarUpdate(this, 1, this.tilePrivateFurnace.furnaceBurnTime);
-        crafting.sendProgressBarUpdate(this, 2, this.tilePrivateFurnace.currentItemBurnTime);
+        crafting.sendProgressBarUpdate(this, 0, this.tilePasswordFurnace.furnaceCookTime);
+        crafting.sendProgressBarUpdate(this, 1, this.tilePasswordFurnace.furnaceBurnTime);
+        crafting.sendProgressBarUpdate(this, 2, this.tilePasswordFurnace.currentItemBurnTime);
     }
 
     public void detectAndSendChanges()
@@ -57,25 +57,25 @@ public class ContainerPrivateFurnace extends Container
         {
             ICrafting icrafting = (ICrafting)this.crafters.get(i);
 
-            if(this.lastCookTime != this.tilePrivateFurnace.furnaceCookTime)
+            if(this.lastCookTime != this.tilePasswordFurnace.furnaceCookTime)
             {
-                icrafting.sendProgressBarUpdate(this, 0, this.tilePrivateFurnace.furnaceCookTime);
+                icrafting.sendProgressBarUpdate(this, 0, this.tilePasswordFurnace.furnaceCookTime);
             }
 
-            if(this.lastBurnTime != this.tilePrivateFurnace.furnaceBurnTime)
+            if(this.lastBurnTime != this.tilePasswordFurnace.furnaceBurnTime)
             {
-                icrafting.sendProgressBarUpdate(this, 1, this.tilePrivateFurnace.furnaceBurnTime);
+                icrafting.sendProgressBarUpdate(this, 1, this.tilePasswordFurnace.furnaceBurnTime);
             }
 
-            if(this.lastItemBurnTime != this.tilePrivateFurnace.currentItemBurnTime)
+            if(this.lastItemBurnTime != this.tilePasswordFurnace.currentItemBurnTime)
             {
-                icrafting.sendProgressBarUpdate(this, 2, this.tilePrivateFurnace.currentItemBurnTime);
+                icrafting.sendProgressBarUpdate(this, 2, this.tilePasswordFurnace.currentItemBurnTime);
             }
         }
 
-        this.lastCookTime = this.tilePrivateFurnace.furnaceCookTime;
-        this.lastBurnTime = this.tilePrivateFurnace.furnaceBurnTime;
-        this.lastItemBurnTime = this.tilePrivateFurnace.currentItemBurnTime;
+        this.lastCookTime = this.tilePasswordFurnace.furnaceCookTime;
+        this.lastBurnTime = this.tilePasswordFurnace.furnaceBurnTime;
+        this.lastItemBurnTime = this.tilePasswordFurnace.currentItemBurnTime;
     }
 
     @SideOnly(Side.CLIENT)
@@ -83,23 +83,23 @@ public class ContainerPrivateFurnace extends Container
     {
         if(id == 0)
         {
-            this.tilePrivateFurnace.furnaceCookTime = value;
+            this.tilePasswordFurnace.furnaceCookTime = value;
         }
 
         if(id == 1)
         {
-            this.tilePrivateFurnace.furnaceBurnTime = value;
+            this.tilePasswordFurnace.furnaceBurnTime = value;
         }
 
         if(id == 2)
         {
-            this.tilePrivateFurnace.currentItemBurnTime = value;
+            this.tilePasswordFurnace.currentItemBurnTime = value;
         }
     }
 
     public boolean canInteractWith(EntityPlayer player)
     {
-        return this.tilePrivateFurnace.isUseableByPlayer(player);
+        return this.tilePasswordFurnace.isUseableByPlayer(player);
     }
 
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)

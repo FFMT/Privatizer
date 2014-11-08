@@ -7,19 +7,19 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.mcnanotech.privatizer.common.ContainerPrivateChest;
-import fr.mcnanotech.privatizer.common.TileEntityPrivateChest;
+import fr.mcnanotech.privatizer.common.ContainerPasswordChest;
+import fr.mcnanotech.privatizer.common.TileEntityPasswordChest;
 
-public class GuiPrivateChest extends GuiContainer
+public class GuiPasswordChest extends GuiContainer
 {
-    private final TileEntityPrivateChest privateChest;
+    private final TileEntityPasswordChest passwordChest;
     private final InventoryPlayer inventoryPlayer;
     private final ResourceLocation texture = new ResourceLocation("textures/gui/container/generic_54.png");
 
-    public GuiPrivateChest(TileEntityPrivateChest tile, InventoryPlayer inventory)
+    public GuiPasswordChest(TileEntityPasswordChest tile, InventoryPlayer inventory)
     {
-        super(new ContainerPrivateChest(tile, inventory));
-        this.privateChest = tile;
+        super(new ContainerPasswordChest(tile, inventory));
+        this.passwordChest = tile;
         this.inventoryPlayer = inventory;
         this.allowUserInput = false;
         this.ySize = 219;
@@ -28,7 +28,7 @@ public class GuiPrivateChest extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int x, int y)
     {
         this.fontRendererObj.drawString(I18n.format(this.inventoryPlayer.getInventoryName()), 8, this.ySize - 92, 4210752);
-        this.fontRendererObj.drawString(this.privateChest.hasCustomInventoryName() ? this.privateChest.getInventoryName() : I18n.format(this.privateChest.getInventoryName()), 8, 6, 4210752);
+        this.fontRendererObj.drawString(this.passwordChest.hasCustomInventoryName() ? this.passwordChest.getInventoryName() : I18n.format(this.passwordChest.getInventoryName()), 8, 6, 4210752);
     }
 
     @Override

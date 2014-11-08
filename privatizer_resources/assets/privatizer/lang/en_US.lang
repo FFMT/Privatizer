@@ -3,14 +3,29 @@
 
 tile.private.stone.name=Private Stone
 tile.private.brick.name=Private Brick
-tile.private.adaptable.name=Adaptable Private Block
-tile.private.adaptable.desc=Right click on with another block\nand the texture will change !
+tile.private.universal.name=Universal Private Block
+tile.private.universal.desc=Right click on it with another block\nand the texture will change !
 tile.private.furnace.name=Private Furnace
-tile.privateChest.name=Private Chest
+tile.privateChest.private.name=Private Chest
 tile.privateDoor.name=Private Door
+tile.private.friendlyStone.name=Friendly Stone
+tile.private.friendlyBrick.name=Friendly Brick
+tile.private.friendlyUniversal.name=Universal Friendly Block
+tile.private.friendlyFurnace.name=Friendly Furnace
+#friendly chest
+#friendly door
+tile.private.passwordStone.name=Password Stone
+tile.private.passwordBrick.name=Password Brick
+tile.private.passwordUniversal.name=Universal Password Block
+tile.private.passwordFurnace.name=Password Furnace
+tile.privateChest.password.name=Password Chest
+#password door
+tile.permissionEditor.name=Permission Editor
 
 container.privateChest=Private Chest
 container.privateFurnace=Private Furnace
+container.passwordFurnace=Password Furnace
+container.permissionEditor=Permission Editor
 
 item.key.name=Key
 item.bunchOfKeys.name=Bunch Of Keys
@@ -23,3 +38,7 @@ message.deny.break=You can not break this block. The owner is : %s
 message.deny.open=You can not open this block. The owner is : %s
 message.deny.texture=You can't apply this texture !
 message.info.texture=Applied texture : %s
+message.deny.texture.notOwner=You can't apply a texture on this block. The owner is : %s
+message.deny.texture.wrongPass=You can't apply a texture on this block : Wrong password !
+message.password.break=You can not break this bloc : Wrong password
+message.password.open=You can not open this block : Wrong password

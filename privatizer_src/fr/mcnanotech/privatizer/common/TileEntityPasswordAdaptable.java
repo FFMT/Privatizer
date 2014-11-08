@@ -8,7 +8,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 
-public class TileEntityPrivateAdaptable extends TileEntityPrivate implements IAdaptableTile
+public class TileEntityPasswordAdaptable extends TileEntityPassword implements IAdaptableTile
 {
     private ItemStack stack;
 

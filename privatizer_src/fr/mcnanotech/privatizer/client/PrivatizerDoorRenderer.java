@@ -9,26 +9,26 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class PrivatizerDoorRenderer implements ISimpleBlockRenderingHandler
 {
-	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
-	{
+    @Override
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
+    {
 
-	}
+    }
 
-	@Override
-	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
-	{
+    @Override
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
+    {
         Tessellator tessellator = Tessellator.instance;
         int l = world.getBlockMetadata(x, y, z);
 
-        if (l == 1)
+        if(l == 1)
         {
-            if (world.getBlock(x, y - 1, z) != block)
+            if(world.getBlock(x, y - 1, z) != block)
             {
                 return false;
             }
         }
-        else if (world.getBlock(x, y + 1, z) != block)
+        else if(world.getBlock(x, y + 1, z) != block)
         {
             return false;
         }
@@ -72,17 +72,17 @@ public class PrivatizerDoorRenderer implements ISimpleBlockRenderingHandler
         flag = true;
         renderer.flipTexture = false;
         return flag;
-	}
+    }
 
-	@Override
-	public boolean shouldRender3DInInventory(int modelId)
-	{
-		return false;
-	}
+    @Override
+    public boolean shouldRender3DInInventory(int modelId)
+    {
+        return false;
+    }
 
-	@Override
-	public int getRenderId()
-	{
-		return ClientProxy.doorId;
-	}
+    @Override
+    public int getRenderId()
+    {
+        return ClientProxy.doorId;
+    }
 }

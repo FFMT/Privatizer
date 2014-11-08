@@ -7,23 +7,23 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.mcnanotech.privatizer.common.ContainerPrivateFurnace;
-import fr.mcnanotech.privatizer.common.TileEntityPrivateFurnace;
+import fr.mcnanotech.privatizer.common.ContainerPasswordFurnace;
+import fr.mcnanotech.privatizer.common.TileEntityPasswordFurnace;
 
-public class GuiPrivateFurnace extends GuiContainer
+public class GuiPasswordFurnace extends GuiContainer
 {
     private static final ResourceLocation texture = new ResourceLocation("textures/gui/container/furnace.png");
-    private TileEntityPrivateFurnace tilePrivateFurnace;
+    private TileEntityPasswordFurnace tilePasswordFurnace;
 
-    public GuiPrivateFurnace(TileEntityPrivateFurnace te, InventoryPlayer inventory)
+    public GuiPasswordFurnace(TileEntityPasswordFurnace te, InventoryPlayer inventory)
     {
-        super(new ContainerPrivateFurnace(te, inventory));
-        this.tilePrivateFurnace = te;
+        super(new ContainerPasswordFurnace(te, inventory));
+        this.tilePasswordFurnace = te;
     }
 
     protected void drawGuiContainerForegroundLayer(int x, int y)
     {
-        String s = this.tilePrivateFurnace.hasCustomInventoryName() ? this.tilePrivateFurnace.getInventoryName() : I18n.format(this.tilePrivateFurnace.getInventoryName());
+        String s = this.tilePasswordFurnace.hasCustomInventoryName() ? this.tilePasswordFurnace.getInventoryName() : I18n.format(this.tilePasswordFurnace.getInventoryName());
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
@@ -38,13 +38,13 @@ public class GuiPrivateFurnace extends GuiContainer
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
         int i1;
 
-        if(this.tilePrivateFurnace.isBurning())
+        if(this.tilePasswordFurnace.isBurning())
         {
-            i1 = this.tilePrivateFurnace.getBurnTimeRemainingScaled(12);
+            i1 = this.tilePasswordFurnace.getBurnTimeRemainingScaled(12);
             this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
         }
 
-        i1 = this.tilePrivateFurnace.getCookProgressScaled(24);
+        i1 = this.tilePasswordFurnace.getCookProgressScaled(24);
         this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
     }
 }

@@ -14,109 +14,109 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockPrivateDoor extends ItemBlock
 {
-	public ItemBlockPrivateDoor(Block block)
-	{
-		super(block);
-		this.maxStackSize = 16;
-	}
+    public ItemBlockPrivateDoor(Block block)
+    {
+        super(block);
+        this.maxStackSize = 16;
+    }
 
-	@SideOnly(Side.CLIENT)
-	public int getSpriteNumber()
-	{
-		return 1;
-	}
+    @SideOnly(Side.CLIENT)
+    public int getSpriteNumber()
+    {
+        return 1;
+    }
 
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int metadata)
-	{
-		return itemIcon;
-	}
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int metadata)
+    {
+        return itemIcon;
+    }
 
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iiconRegister)
-	{
-		this.itemIcon = iiconRegister.registerIcon("privatizer:private_door");
-	}
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iiconRegister)
+    {
+        this.itemIcon = iiconRegister.registerIcon("privatizer:private_door");
+    }
 
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10)
-	{
-		if(side != 1)
-		{
-			return false;
-		}
-		else
-		{
-			++y;
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10)
+    {
+        if(side != 1)
+        {
+            return false;
+        }
+        else
+        {
+            ++y;
 
-			if(player.canPlayerEdit(x, y, z, side, stack) && player.canPlayerEdit(x, y + 1, z, side, stack))
-			{
-				if(!field_150939_a.canPlaceBlockAt(world, x, y, z))
-				{
-					return false;
-				}
-				else
-				{
-					int direction = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
-					placeDoorBlock(world, x, y, z, direction, field_150939_a, player);
-					--stack.stackSize;
-					return true;
-				}
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
+            if(player.canPlayerEdit(x, y, z, side, stack) && player.canPlayerEdit(x, y + 1, z, side, stack))
+            {
+                if(!field_150939_a.canPlaceBlockAt(world, x, y, z))
+                {
+                    return false;
+                }
+                else
+                {
+                    int direction = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
+                    placeDoorBlock(world, x, y, z, direction, field_150939_a, player);
+                    --stack.stackSize;
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 
-	public static void placeDoorBlock(World world, int x, int y, int z, int direction, Block block, EntityPlayer player)
-	{
-		byte b0 = 0;
-		byte b1 = 0;
+    public static void placeDoorBlock(World world, int x, int y, int z, int direction, Block block, EntityPlayer player)
+    {
+        byte b0 = 0;
+        byte b1 = 0;
 
-		if(direction == 0)
-		{
-			b1 = 1;
-		}
+        if(direction == 0)
+        {
+            b1 = 1;
+        }
 
-		if(direction == 1)
-		{
-			b0 = -1;
-		}
+        if(direction == 1)
+        {
+            b0 = -1;
+        }
 
-		if(direction == 2)
-		{
-			b1 = -1;
-		}
+        if(direction == 2)
+        {
+            b1 = -1;
+        }
 
-		if(direction == 3)
-		{
-			b0 = 1;
-		}
+        if(direction == 3)
+        {
+            b0 = 1;
+        }
 
-		world.setBlock(x, y, z, block, 0, 2);
-		world.setBlock(x, y + 1, z, block, 1, 2);
-		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileEntityPrivateDoor)
-		{
-			TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
-			tileDoor.setDirection(direction);
-			tileDoor.setOwner(player.getGameProfile());
-			if(world.getBlock(x - b0, y, z - b1) == PrivatizerMod.privateDoor && world.getBlockMetadata(x - b0, y, z - b1) == 0)
-			{
-				TileEntity adjacentTe = world.getTileEntity(x - b0, y, z - b1);
-				if(te instanceof TileEntityPrivateDoor)
-				{
-					TileEntityPrivateDoor adjacentTileDoor = (TileEntityPrivateDoor)adjacentTe;
-					if(!adjacentTileDoor.isDoubleDoor())
-					{
-						tileDoor.setDoubleDoor(true);
-					}
-				}
-			}
-		}
-		world.markBlockForUpdate(x, y, z);
-		world.notifyBlocksOfNeighborChange(x, y, z, block);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, block);
-	}
+        world.setBlock(x, y, z, block, 0, 2);
+        world.setBlock(x, y + 1, z, block, 1, 2);
+        TileEntity te = world.getTileEntity(x, y, z);
+        if(te instanceof TileEntityPrivateDoor)
+        {
+            TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
+            tileDoor.setDirection(direction);
+            tileDoor.setOwner(player.getGameProfile());
+            if(world.getBlock(x - b0, y, z - b1) == PrivatizerMod.privateDoor && world.getBlockMetadata(x - b0, y, z - b1) == 0)
+            {
+                TileEntity adjacentTe = world.getTileEntity(x - b0, y, z - b1);
+                if(te instanceof TileEntityPrivateDoor)
+                {
+                    TileEntityPrivateDoor adjacentTileDoor = (TileEntityPrivateDoor)adjacentTe;
+                    if(!adjacentTileDoor.isDoubleDoor())
+                    {
+                        tileDoor.setDoubleDoor(true);
+                    }
+                }
+            }
+        }
+        world.markBlockForUpdate(x, y, z);
+        world.notifyBlocksOfNeighborChange(x, y, z, block);
+        world.notifyBlocksOfNeighborChange(x, y + 1, z, block);
+    }
 }

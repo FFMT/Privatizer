@@ -14,7 +14,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISidedInventory, IDirectionalTile, IFurnaceTile
+public class TileEntityPasswordFurnace extends TileEntityPassword implements ISidedInventory, IDirectionalTile, IFurnaceTile
 {
     private static final int[] slotsTop = new int[] {0};
     private static final int[] slotsBottom = new int[] {2, 1};
@@ -125,7 +125,7 @@ public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISide
     @Override
     public String getInventoryName()
     {
-        return this.hasCustomInventoryName() ? this.customName : "container.privateFurnace";
+        return this.hasCustomInventoryName() ? this.customName : "container.passwordFurnace";
     }
 
     @Override
@@ -291,7 +291,7 @@ public class TileEntityPrivateFurnace extends TileEntityPrivate implements ISide
             this.markDirty();
         }
     }
-
+    
     public boolean canUpdate()
     {
         return true;

@@ -3,14 +3,29 @@
 
 tile.private.stone.name=Pierre privée
 tile.private.brick.name=Brique privée
-tile.private.adaptable.name=Bloc privé adaptable
-tile.private.adaptable.desc=Faite un clic droit dessus avec un\nautre bloc et la texture va changer !
+tile.private.universal.name=Bloc privé universel
+tile.private.universal.desc=Faite un clic droit dessus avec un\nautre bloc et la texture va changer !
 tile.private.furnace.name=Four privé
-tile.privateChest.name=Coffre privé
+tile.privateChest.private.name=Coffre privé
 tile.privateDoor.name=Porte privé
+tile.private.friendlyStone.name=Pierre amical
+tile.private.friendlyBrick.name=Brique amical
+tile.private.friendlyUniversal.name=Bloc amical universel
+tile.private.friendlyFurnace.name=Four amical
+#friendly chest
+#friendly door
+tile.private.passwordStone.name=Pierre à mot de passe
+tile.private.passwordBrick.name=Brique à mot de passe
+tile.private.passwordUniversal.name=Bloc à mot de passe universel
+tile.private.passwordFurnace.name=Four à mot de passe
+tile.privateChest.password.name=Coffre à mot de passe
+#password door
+tile.permissionEditor.name=Éditeur de permission
 
 container.privateChest=Coffre privé
 container.privateFurnace=Four privé
+container.passwordFurnace=Four à mot de passe
+container.permissionEditor=Éditeur de permission
 
 item.key.name=Clés
 item.bunchOfKeys.name=Trousseau de clés
@@ -23,3 +38,5 @@ message.deny.break=Vous ne pouvez pas casser ce bloc. Le propriétaire est : %s
 message.deny.open=Vous ne pouvez pas ouvrir ce bloc. Le propriétaire est : %s
 message.deny.texture=Vous ne pouvez pas appliquer cette texture !
 message.info.texture=Texture appliquée : %s
+message.password.break=Vous ne pouvez pas casser ce bloc : mauvais mot de passe
+message.password.open=Vous ne pouvez pas ouvrir ce bloc : mauvais mot de passe

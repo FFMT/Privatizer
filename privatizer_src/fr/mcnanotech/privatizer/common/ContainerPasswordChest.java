@@ -6,20 +6,20 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerPrivateChest extends Container
+public class ContainerPasswordChest extends Container
 {
-    private final TileEntityPrivateChest privateChest;
+    private final TileEntityPasswordChest passwordChest;
 
-    public ContainerPrivateChest(TileEntityPrivateChest tile, InventoryPlayer inventory)
+    public ContainerPasswordChest(TileEntityPasswordChest tile, InventoryPlayer inventory)
     {
-        this.privateChest = tile;
-        this.privateChest.openInventory();
+        this.passwordChest = tile;
+        this.passwordChest.openInventory();
 
         for(int i = 0; i < 6; i++)
         {
             for(int j = 0; j < 9; j++)
             {
-                this.addSlotToContainer(new Slot(this.privateChest, j + i * 9, 8 + j * 18, 18 + i * 18));
+                this.addSlotToContainer(new Slot(this.passwordChest, j + i * 9, 8 + j * 18, 18 + i * 18));
             }
         }
         this.bindPlayerInventory(inventory);
@@ -45,7 +45,7 @@ public class ContainerPrivateChest extends Container
     @Override
     public boolean canInteractWith(EntityPlayer player)
     {
-        return this.privateChest.isUseableByPlayer(player);
+        return this.passwordChest.isUseableByPlayer(player);
     }
 
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
@@ -58,14 +58,14 @@ public class ContainerPrivateChest extends Container
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if(slotId < this.privateChest.getSizeInventory())
+            if(slotId < this.passwordChest.getSizeInventory())
             {
-                if(!this.mergeItemStack(itemstack1, this.privateChest.getSizeInventory(), this.inventorySlots.size(), true))
+                if(!this.mergeItemStack(itemstack1, this.passwordChest.getSizeInventory(), this.inventorySlots.size(), true))
                 {
                     return null;
                 }
             }
-            else if(!this.mergeItemStack(itemstack1, 0, this.privateChest.getSizeInventory(), false))
+            else if(!this.mergeItemStack(itemstack1, 0, this.passwordChest.getSizeInventory(), false))
             {
                 return null;
             }
@@ -85,11 +85,11 @@ public class ContainerPrivateChest extends Container
     public void onContainerClosed(EntityPlayer player)
     {
         super.onContainerClosed(player);
-        this.privateChest.closeInventory();
+        this.passwordChest.closeInventory();
     }
 
-    public TileEntityPrivateChest getTile()
+    public TileEntityPasswordChest getTile()
     {
-        return this.privateChest;
+        return this.passwordChest;
     }
 }

@@ -6,9 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerFilter implements IEntitySelector
 {
-	@Override
-	public boolean isEntityApplicable(Entity entity)
-	{
-		return entity instanceof EntityPlayer;
-	}
+    @Override
+    public boolean isEntityApplicable(Entity entity)
+    {
+        return entity instanceof EntityPlayer;
+    }
 }

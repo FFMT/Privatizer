@@ -1,8 +1,5 @@
 package fr.mcnanotech.privatizer.common;
 
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -11,31 +8,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 
-public class TileEntityPrivateChest extends TileEntityPrivate implements IInventory, IDirectionalTile
+public class TileEntityPermissionEditor extends TileEntity implements IInventory
 {
-    private ItemStack[] contents = new ItemStack[54];
-    public float lidAngle;
-    public float prevLidAngle;
-    public int numPlayersUsing;
-    private int ticksSinceSync;
+    private ItemStack[] contents = new ItemStack[9];
     private String customName;
-    private byte direction;
-
-    @Override
-    public byte getDirection()
-    {
-        return direction;
-    }
-
-    @Override
-    public void setDirection(byte direction)
-    {
-        this.direction = direction;
-        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-    }
 
     public Packet getDescriptionPacket()
     {
@@ -120,7 +99,7 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
     @Override
     public String getInventoryName()
     {
-        return this.hasCustomInventoryName() ? this.customName : "container.privateChest";
+        return this.hasCustomInventoryName() ? this.customName : "container.permissionEditor";
     }
 
     public void setInventoryName(String name)
@@ -153,7 +132,6 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
         {
             this.customName = nbtTag.getString("CustomName");
         }
-        this.direction = nbtTag.getByte("Direction");
 
         NBTTagList nbttaglist = nbtTag.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         for(int i = 0; i < nbttaglist.tagCount(); ++i)
@@ -188,120 +166,28 @@ public class TileEntityPrivateChest extends TileEntityPrivate implements IInvent
         {
             nbtTag.setString("CustomName", this.customName);
         }
-        nbtTag.setByte("Direction", this.direction);
-    }
-
-    public void updateEntity()
-    {
-        super.updateEntity();
-        ++this.ticksSinceSync;
-
-        if(!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0)
-        {
-            this.numPlayersUsing = 0;
-            List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - 5, this.yCoord - 5, this.zCoord - 5, this.xCoord + 6, this.yCoord + 6, this.zCoord + 6));
-            Iterator iterator = list.iterator();
-
-            while(iterator.hasNext())
-            {
-                EntityPlayer entityplayer = (EntityPlayer)iterator.next();
-
-                if(entityplayer.openContainer instanceof ContainerPrivateChest)
-                {
-                    IInventory iinventory = ((ContainerPrivateChest)entityplayer.openContainer).getTile();
-
-                    if(iinventory == this)
-                    {
-                        ++this.numPlayersUsing;
-                    }
-                }
-            }
-        }
-
-        this.prevLidAngle = this.lidAngle;
-        double d2;
-
-        if(this.numPlayersUsing > 0 && this.lidAngle == 0.0F)
-        {
-            this.worldObj.playSoundEffect(this.xCoord + 0.5D, (double)this.yCoord + 0.5D, this.zCoord + 0.5D, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-        }
-
-        if(this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F)
-        {
-            float f1 = this.lidAngle;
-
-            if(this.numPlayersUsing > 0)
-            {
-                this.lidAngle += 0.1F;
-            }
-            else
-            {
-                this.lidAngle -= 0.1F;
-            }
-
-            if(this.lidAngle > 1.0F)
-            {
-                this.lidAngle = 1.0F;
-            }
-
-            float f2 = 0.5F;
-
-            if(this.lidAngle < f2 && f1 >= f2)
-            {
-                this.worldObj.playSoundEffect(this.xCoord + 0.5D, (double)this.yCoord + 0.5D, this.zCoord + 0.5D, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-            }
-
-            if(this.lidAngle < 0.0F)
-            {
-                this.lidAngle = 0.0F;
-            }
-        }
-    }
-
-    public boolean canUpdate()
-    {
-        return true;
-    }
-
-    public boolean receiveClientEvent(int id, int value)
-    {
-        if(id == 1)
-        {
-            this.numPlayersUsing = value;
-            return true;
-        }
-        else
-        {
-            return super.receiveClientEvent(id, value);
-        }
     }
 
     @Override
     public void openInventory()
     {
-        if(this.numPlayersUsing < 0)
-        {
-            this.numPlayersUsing = 0;
-        }
 
-        ++this.numPlayersUsing;
-        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType());
     }
 
     @Override
     public void closeInventory()
     {
-        --this.numPlayersUsing;
-        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType());
+
     }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return true;
+    }
+    
+    public boolean canUpdate()
+    {
+        return false;
     }
 }
