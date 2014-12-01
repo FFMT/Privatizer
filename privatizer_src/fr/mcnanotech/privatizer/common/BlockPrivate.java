@@ -255,11 +255,7 @@ public class BlockPrivate extends Block
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tabs, List list)
     {
-        for(int i = 0; i < 4; i++)
-        {
-            list.add(new ItemStack(item, 1, i));
-        }
-        for(int i = 8; i < subBlock.length; i++)
+        for(int i = 0; i < subBlock.length; i++)
         {
             list.add(new ItemStack(item, 1, i));
         }

@@ -120,7 +120,7 @@ public class TileEntityPasswordChest extends TileEntityPassword implements IInve
     @Override
     public String getInventoryName()
     {
-        return this.hasCustomInventoryName() ? this.customName : "container.privateChest";
+        return this.hasCustomInventoryName() ? this.customName : "container.passwordChest";
     }
 
     public void setInventoryName(String name)

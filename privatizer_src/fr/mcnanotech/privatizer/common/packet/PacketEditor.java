@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import cpw.mods.fml.common.network.ByteBufUtils;
-import fr.mcnanotech.privatizer.common.ContainerPrivateEditor;
+import fr.mcnanotech.privatizer.common.ContainerPermitionEditor;
 import fr.mcnanotech.privatizer.common.TileEntityPermissionEditor;
 import fr.minecraftforgefrance.ffmtlibs.network.FFMTPacket;
 
@@ -51,9 +51,9 @@ public class PacketEditor extends FFMTPacket
     public void handleServerSide(EntityPlayer player)
     {
         Container c = player.openContainer;
-        if(c instanceof ContainerPrivateEditor)
+        if(c instanceof ContainerPermitionEditor)
         {
-            TileEntityPermissionEditor editor = ((ContainerPrivateEditor)c).getTile();
+            TileEntityPermissionEditor editor = ((ContainerPermitionEditor)c).getTile();
             for(int i = 0; i < editor.getSizeInventory(); i++)
             {
                 ItemStack stack = editor.getStackInSlot(i);

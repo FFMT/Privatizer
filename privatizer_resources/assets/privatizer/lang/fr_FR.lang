@@ -19,11 +19,12 @@ tile.private.passwordBrick.name=Brique à mot de passe
 tile.private.passwordUniversal.name=Bloc à mot de passe universel
 tile.private.passwordFurnace.name=Four à mot de passe
 tile.privateChest.password.name=Coffre à mot de passe
-#password door
+tile.passwordDoor.name=Porte à mot de passe
 tile.permissionEditor.name=Éditeur de permission
 
 container.privateChest=Coffre privé
 container.privateFurnace=Four privé
+container.passwordChest=Coffre à mot de passe
 container.passwordFurnace=Four à mot de passe
 container.permissionEditor=Éditeur de permission
 

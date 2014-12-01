@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -66,19 +67,18 @@ public class PrivatizerEventHandler
             NBTTagList list = event.itemStack.getTagCompound().getTagList("privatizer", Constants.NBT.TAG_STRING);
             if(!list.getStringTagAt(1).isEmpty() && !GameSettings.isKeyDown(FMLClientHandler.instance().getClient().gameSettings.keyBindSneak))
             {
-                // TODO translate
-                event.toolTip.add("privatizer : this item has a password.");
-                event.toolTip.add("Sneak to see");
+                event.toolTip.add(StatCollector.translateToLocal("item.toolTip.hasPassword"));
+                event.toolTip.add(StatCollector.translateToLocal("item.toolTip.sneak"));
             }
             else
             {
                 if(list.getStringTagAt(0).equals(event.entityPlayer.getGameProfile().getId().toString()))
                 {
-                    event.toolTip.add("The password is : " + list.getStringTagAt(1));
+                    event.toolTip.add(StatCollector.translateToLocalFormatted("item.toolTip.password", list.getStringTagAt(1)));
                 }
                 else
                 {
-                    event.toolTip.add("Sorry but you aren't the owner of this item");
+                    event.toolTip.add(StatCollector.translateToLocal("item.toolTip.noOwner"));
                 }
             }
         }

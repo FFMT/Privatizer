@@ -84,10 +84,12 @@ public class PrivatizerMod
         GameRegistry.registerTileEntity(TileEntityPrivateChest.class, "privatizer:PrivateChest");
         GameRegistry.registerTileEntity(TileEntityPrivateDoor.class, "privatizer:PrivateDoor");
         GameRegistry.registerTileEntity(TileEntityFriend.class, "privatizer:Friend");
+        GameRegistry.registerTileEntity(TileEntityFriendDoor.class, "privatizer:FriendDoor");
         GameRegistry.registerTileEntity(TileEntityPassword.class, "privatizer:Password");
         GameRegistry.registerTileEntity(TileEntityPasswordAdaptable.class, "privatizer:PasswordAdaptable");
         GameRegistry.registerTileEntity(TileEntityPasswordFurnace.class, "privatizer:PasswordFurnace");
         GameRegistry.registerTileEntity(TileEntityPasswordChest.class, "privatizer:PasswordChest");
+        GameRegistry.registerTileEntity(TileEntityPasswordDoor.class, "privatizer:PasswordDoor");
         GameRegistry.registerTileEntity(TileEntityPermissionEditor.class, "privatizer:PermissionEditor");
 
         key = new ItemKey().setUnlocalizedName("key").setCreativeTab(privatizerTab);

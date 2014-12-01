@@ -34,7 +34,7 @@ public class PrivatizerGuiHandler implements IGuiHandler
         }
         else if(ID == 6 && te instanceof TileEntityPermissionEditor)
         {
-            return new ContainerPrivateEditor((TileEntityPermissionEditor)te, player.inventory);
+            return new ContainerPermitionEditor((TileEntityPermissionEditor)te, player.inventory);
         }
         return null;
     }

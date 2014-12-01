@@ -5,19 +5,24 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockPrivateDoor extends ItemBlock
 {
+    private IIcon friendlyIcon, passwordIcon;
+
     public ItemBlockPrivateDoor(Block block)
     {
         super(block);
         this.maxStackSize = 16;
+        this.setHasSubtypes(true);
     }
 
     @SideOnly(Side.CLIENT)
@@ -29,13 +34,28 @@ public class ItemBlockPrivateDoor extends ItemBlock
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int metadata)
     {
-        return itemIcon;
+        return metadata == 0 ? this.itemIcon : metadata == 1 ? this.friendlyIcon : this.passwordIcon;
     }
 
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iiconRegister)
     {
         this.itemIcon = iiconRegister.registerIcon("privatizer:private_door");
+        this.friendlyIcon = iiconRegister.registerIcon("privatizer:friendly_door");
+        this.passwordIcon = iiconRegister.registerIcon("privatizer:password_door");
+    }
+
+    public String getUnlocalizedName(ItemStack stack)
+    {
+        switch(stack.getItemDamage())
+        {
+            case 1:
+                return "tile.friendlyDoor";
+            case 2:
+                return "tile.passwordDoor";
+            default:
+                return field_150939_a.getUnlocalizedName();
+        }
     }
 
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10)
@@ -57,7 +77,7 @@ public class ItemBlockPrivateDoor extends ItemBlock
                 else
                 {
                     int direction = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 4.0F / 360.0F) - 0.5D) & 3;
-                    placeDoorBlock(world, x, y, z, direction, field_150939_a, player);
+                    placeDoorBlock(world, x, y, z, direction, field_150939_a, player, stack);
                     --stack.stackSize;
                     return true;
                 }
@@ -69,7 +89,7 @@ public class ItemBlockPrivateDoor extends ItemBlock
         }
     }
 
-    public static void placeDoorBlock(World world, int x, int y, int z, int direction, Block block, EntityPlayer player)
+    private void placeDoorBlock(World world, int x, int y, int z, int direction, Block block, EntityPlayer player, ItemStack stack)
     {
         byte b0 = 0;
         byte b1 = 0;
@@ -93,25 +113,35 @@ public class ItemBlockPrivateDoor extends ItemBlock
         {
             b0 = 1;
         }
-
-        world.setBlock(x, y, z, block, 0, 2);
-        world.setBlock(x, y + 1, z, block, 1, 2);
+        world.setBlock(x, y, z, block, stack.getItemDamage() * 2, 2);
+        world.setBlock(x, y + 1, z, block, stack.getItemDamage() * 2 + 1, 2);
         TileEntity te = world.getTileEntity(x, y, z);
-        if(te instanceof TileEntityPrivateDoor)
+        if(te instanceof IDoorTile)
         {
-            TileEntityPrivateDoor tileDoor = (TileEntityPrivateDoor)te;
-            tileDoor.setDirection(direction);
-            tileDoor.setOwner(player.getGameProfile());
-            if(world.getBlock(x - b0, y, z - b1) == PrivatizerMod.privateDoor && world.getBlockMetadata(x - b0, y, z - b1) == 0)
+            IDoorTile tileDoor = (IDoorTile)te;
+            tileDoor.setDirection((byte)direction);
+            if(world.getBlock(x - b0, y, z - b1) == PrivatizerMod.privateDoor && (world.getBlockMetadata(x - b0, y, z - b1) & 1) == 0)
             {
                 TileEntity adjacentTe = world.getTileEntity(x - b0, y, z - b1);
-                if(te instanceof TileEntityPrivateDoor)
+                if(adjacentTe instanceof IDoorTile)
                 {
-                    TileEntityPrivateDoor adjacentTileDoor = (TileEntityPrivateDoor)adjacentTe;
+                    IDoorTile adjacentTileDoor = (IDoorTile)adjacentTe;
                     if(!adjacentTileDoor.isDoubleDoor())
                     {
                         tileDoor.setDoubleDoor(true);
                     }
+                }
+            }
+            if(te instanceof TileEntityPrivateDoor)
+            {
+                ((TileEntityPrivateDoor)tileDoor).setOwner(player.getGameProfile());
+            }
+            else if(te instanceof TileEntityPasswordDoor)
+            {
+                if(stack.hasTagCompound())
+                {
+                    NBTTagList list = stack.getTagCompound().getTagList("privatizer", Constants.NBT.TAG_STRING);
+                    ((TileEntityPasswordDoor)te).setPassword(list.getStringTagAt(1));
                 }
             }
         }

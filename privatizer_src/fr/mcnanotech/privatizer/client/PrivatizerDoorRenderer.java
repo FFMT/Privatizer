@@ -21,7 +21,7 @@ public class PrivatizerDoorRenderer implements ISimpleBlockRenderingHandler
         Tessellator tessellator = Tessellator.instance;
         int l = world.getBlockMetadata(x, y, z);
 
-        if(l == 1)
+        if((l & 1) != 0)
         {
             if(world.getBlock(x, y - 1, z) != block)
             {

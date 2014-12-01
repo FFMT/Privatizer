@@ -19,11 +19,12 @@ tile.private.passwordBrick.name=Password Brick
 tile.private.passwordUniversal.name=Universal Password Block
 tile.private.passwordFurnace.name=Password Furnace
 tile.privateChest.password.name=Password Chest
-#password door
+tile.passwordDoor.name=Password Door
 tile.permissionEditor.name=Permission Editor
 
 container.privateChest=Private Chest
 container.privateFurnace=Private Furnace
+container.passwordChest=Password Chest
 container.passwordFurnace=Password Furnace
 container.permissionEditor=Permission Editor
 
@@ -42,3 +43,7 @@ message.deny.texture.notOwner=You can't apply a texture on this block. The owner
 message.deny.texture.wrongPass=You can't apply a texture on this block : Wrong password !
 message.password.break=You can not break this bloc : Wrong password
 message.password.open=You can not open this block : Wrong password
+item.toolTip.hasPassword=This item has a password
+item.toolTip.sneak=Sneak to see
+item.toolTip.password=The password is : %s
+item.toolTip.noOwner=Sorry but you aren't the owner of this item

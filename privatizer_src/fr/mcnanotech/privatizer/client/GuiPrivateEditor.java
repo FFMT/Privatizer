@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import fr.mcnanotech.privatizer.common.ContainerPrivateEditor;
+import fr.mcnanotech.privatizer.common.ContainerPermitionEditor;
 import fr.mcnanotech.privatizer.common.PrivatizerMod;
 import fr.mcnanotech.privatizer.common.TileEntityPermissionEditor;
 import fr.mcnanotech.privatizer.common.packet.PacketEditor;
@@ -18,7 +18,7 @@ import fr.mcnanotech.privatizer.common.packet.PacketEditor;
 public class GuiPrivateEditor extends GuiContainer
 {
     private final TileEntityPermissionEditor privateEditor;
-    private final ContainerPrivateEditor containerEditor;
+    private final ContainerPermitionEditor containerEditor;
     private final InventoryPlayer inventoryPlayer;
     private final ResourceLocation texture = new ResourceLocation(PrivatizerMod.MODID, "textures/gui/container/editor.png");
     private GuiTextField textField;
@@ -26,10 +26,10 @@ public class GuiPrivateEditor extends GuiContainer
 
     public GuiPrivateEditor(TileEntityPermissionEditor tile, InventoryPlayer inventory)
     {
-        super(new ContainerPrivateEditor(tile, inventory));
+        super(new ContainerPermitionEditor(tile, inventory));
         this.privateEditor = tile;
         this.inventoryPlayer = inventory;
-        this.containerEditor = (ContainerPrivateEditor)this.inventorySlots;
+        this.containerEditor = (ContainerPermitionEditor)this.inventorySlots;
     }
 
     public void initGui()
